@@ -31,7 +31,7 @@ const ContactUs = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "https://unplugwell.com/blog/api/message/message/",
+        "https://peekly.in/blog/api/message/message/",
         { ...data, site: "2" }
       );
 

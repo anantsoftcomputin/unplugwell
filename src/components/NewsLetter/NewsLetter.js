@@ -31,7 +31,7 @@ const NewsLetter = () => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "https://unplugwell.com/blog/api/subscription/subscribe-create/",
+        "https://peekly.in/blog/api/subscription/subscribe-create/",
         { email: data.email, site: "2" }
       );
 

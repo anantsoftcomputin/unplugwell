@@ -33,7 +33,7 @@ export default function Blog() {
     const fetchBlogs = async () => {
       try {
         const response = await axios.get(
-          `https://unplugwell.com/blog/api/posts/?site_domain=unplugwell.com&page=${page}`
+          `https://peekly.in/blog/api/posts/?site_domain=unplugwell.com&page=${page}`
         );
 
         if (page === 1) {
@@ -61,7 +61,7 @@ export default function Blog() {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          "https://unplugwell.com/blog/api/get-categories/?site=unplugwell.com"
+          "https://peekly.in/blog/api/get-categories/?site=unplugwell.com"
         );
         setCategories((prev) => [
           "All",

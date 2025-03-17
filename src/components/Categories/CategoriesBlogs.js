@@ -20,7 +20,7 @@ export default function CategoriesBlogs({ slug }) {
       if (!slug) return;
       try {
         const response = await axios.get(
-          `https://unplugwell.com/blog/api/posts-category/?site_domain=unplugwell.com&category_slug=${slug}`
+          `https://peekly.in/blog/api/posts-category/?site_domain=unplugwell.com&category_slug=${slug}`
         );
         setRelatedBlogs(response.data.results);
         setFilteredBlogs(response.data.results);

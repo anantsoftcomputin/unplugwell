@@ -22,7 +22,7 @@ export default function Categories() {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          "https://unplugwell.com/blog/api/get-categories/?site=unplugwell.com"
+          "https://peekly.in/blog/api/get-categories/?site=unplugwell.com"
         );
         setCategories(
           response.data.results.map((item, index) => ({

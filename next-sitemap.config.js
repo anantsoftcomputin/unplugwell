@@ -37,12 +37,12 @@ module.exports = {
   additionalPaths: async () => {
     try {
       const blogResponse = await axios.get(
-        "https://unplugwell.com/blog/api/all-posts/?site_domain=unplugwell.com"
+        "https://peekly.in/blog/api/all-posts/?site_domain=unplugwell.com"
       );
       const blogPosts = blogResponse.data.results;
 
       const categoryResponse = await axios.get(
-        "https://unplugwell.com/blog/api/get-categories/?site=unplugwell.com"
+        "https://peekly.in/blog/api/get-categories/?site=unplugwell.com"
       );
       const categories = categoryResponse.data.results;
 

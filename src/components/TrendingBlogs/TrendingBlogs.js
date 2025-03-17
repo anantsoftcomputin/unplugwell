@@ -13,7 +13,7 @@ const TrendingBlogs = () => {
     const fetchTrendingBlogs = async () => {
       try {
         const response = await axios.get(
-          "https://unplugwell.com/blog/api/posts-popular/?site_domain=unplugwell.com"
+          "https://peekly.in/blog/api/posts-popular/?site_domain=unplugwell.com"
         );
         setTrendingBlogs(response.data.results);
       } catch (error) {
