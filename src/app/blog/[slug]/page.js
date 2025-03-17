@@ -12,7 +12,7 @@ export const generateMetadata = async ({ params }) => {
       };
     }
     const { data: blog } = await axios.get(
-      `https://unplugwell.com/blog/api/post/${slug}/`
+      `https://peekly.in/blog/api/post/${slug}/`
     );
     return {
       title: blog.meta_title,

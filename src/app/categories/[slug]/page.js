@@ -4,7 +4,7 @@ import CategoriesBlogs from "@/components/Categories/CategoriesBlogs";
 export const generateMetadata = async ({ params }) => {
   try {
     const { data: category } = await axios.get(
-      `https://unplugwell.com/blog/api/category-slug/?site_domain=unplugwell.com&category_slug=${params?.slug}`
+      `https://peekly.in/blog/api/category-slug/?site_domain=unplugwell.com&category_slug=${params?.slug}`
     );
 
     return {

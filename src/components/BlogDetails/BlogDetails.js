@@ -57,7 +57,7 @@ export default function BlogDetails({ slug }) {
     const fetchBlog = async () => {
       try {
         const response = await axios.get(
-          `https://unplugwell.com/blog/api/post/${slug}/`
+          `https://peekly.in/blog/api/post/${slug}/`
         );
         setBlog(response.data);
       } catch (error) {
@@ -84,7 +84,7 @@ export default function BlogDetails({ slug }) {
       if (!category) return;
       try {
         const response = await axios.get(
-          `https://unplugwell.com/blog/api/posts-category/?site_domain=unplugwell.com&category_name=${category}`
+          `https://peekly.in/blog/api/posts-category/?site_domain=unplugwell.com&category_name=${category}`
         );
         setRelatedBlogs(response.data.results);
       } catch (error) {
