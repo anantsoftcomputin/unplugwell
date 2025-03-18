@@ -160,7 +160,7 @@ const LatestBlogs = () => {
         ) : filteredBlogs.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {filteredBlogs.map((blog, index) => (
-              <Link key={index} href={`/blog/${blog.slug}`}>
+              <Link key={index} href={`/${blog.slug}`}>
                 <article className="group relative overflow-hidden rounded-2xl shadow-lg transition-all duration-500 h-full flex flex-col">
                   <div className="relative h-64 overflow-hidden">
                     <img

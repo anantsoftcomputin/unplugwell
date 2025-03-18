@@ -97,7 +97,7 @@ export default function CategoriesBlogs({ slug }) {
           >
             {filteredBlogs.map((blog, index) => (
               <SwiperSlide key={index}>
-                <Link href={`/blog/${blog.slug}`}>
+                <Link href={`/${blog.slug}`}>
                   <article className="h-full flex flex-col bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
                     <div className="relative h-48">
                       <img
