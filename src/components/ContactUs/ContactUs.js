@@ -8,7 +8,6 @@ import {
   MessageSquare,
   Send,
   User,
-  PhoneCall,
   MapPin,
   ArrowRight,
 } from "lucide-react";
@@ -229,28 +228,12 @@ const ContactUs = () => {
                   </div>
                   <div className="flex items-start">
                     <div className="p-3 bg-purple-600 rounded-full mr-4">
-                      <PhoneCall className="h-6 w-6 text-white" />
-                    </div>
-                    <div>
-                      <p className="text-gray/70 text-sm">Call us</p>
-                      <a
-                        href="tel:+18005551234"
-                        className="text-gray-700 hover:underline"
-                      >
-                        +1 (800) 555-1234
-                      </a>
-                    </div>
-                  </div>
-                  <div className="flex items-start">
-                    <div className="p-3 bg-purple-600 rounded-full mr-4">
                       <MapPin className="h-6 w-6 text-white" />
                     </div>
                     <div>
                       <p className="text-gray/70 text-sm">Visit our office</p>
                       <address className="not-italic text-gray-700">
-                        123 Digital Detox St.
-                        <br />
-                        Mindful City, CA 94103
+                        Alkapuri, Vadodara, Gujarat, India 390007
                       </address>
                     </div>
                   </div>
