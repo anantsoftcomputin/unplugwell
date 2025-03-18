@@ -239,7 +239,7 @@ export default function Blog() {
             <Sparkles className="h-5 w-5 text-purple-600" />
             <h2 className="text-2xl font-bold text-gray-900">Featured Post</h2>
           </div>
-          <Link href={`/blog/${featuredBlog.slug}`}>
+          <Link href={`/${featuredBlog.slug}`}>
             <motion.article
               whileHover={{ y: -5 }}
               transition={{ duration: 0.3 }}
@@ -390,7 +390,7 @@ export default function Blog() {
               }
             >
               {filteredBlogs.map((blog, index) => (
-                <Link key={index} href={`/blog/${blog.slug}`}>
+                <Link key={index} href={`/${blog.slug}`}>
                   <motion.article
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
