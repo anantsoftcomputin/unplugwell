@@ -353,7 +353,7 @@ export default function PrivacyPolicy() {
                   please contact us:
                 </p>
                 <p className="mt-2 text-purple-600">
-                  Email: unplugwell@gmail.com
+                  Email: support@unplugwell.com
                   <br />
                   Contact: Available on UnplugWell.com
                 </p>
