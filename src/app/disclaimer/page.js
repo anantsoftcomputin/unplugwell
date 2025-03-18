@@ -1,6 +1,6 @@
 export default function Disclaimer() {
   return (
-    <main className="py-12 min-h-screen bg-gradient-to-r from-indigo-50 to-pink-50 px-4 sm:px-6 lg:px-12">
+    <main className="py-12 min-h-screen px-4 sm:px-6 lg:px-12">
       <section className="relative py-16 sm:py-20">
         <div className="absolute inset-0 bg-grid-white/[0.05]" />
         <div className="relative max-w-7xl mx-auto">

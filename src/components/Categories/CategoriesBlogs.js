@@ -1,5 +1,4 @@
 "use client";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Clock, Search } from "lucide-react";
 import "swiper/css";
@@ -8,6 +7,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import moment from "moment";
 import Link from "next/link";
+import ajaxCall from "@/helpers/ajaxCall";
 
 export default function CategoriesBlogs({ slug }) {
   const [loading, setLoading] = useState(true);
@@ -19,8 +19,9 @@ export default function CategoriesBlogs({ slug }) {
     const fetchRelatedBlogs = async () => {
       if (!slug) return;
       try {
-        const response = await axios.get(
-          `https://peekly.in/blog/api/posts-category/?site_domain=unplugwell.com&category_slug=${slug}`
+        const response = await ajaxCall(
+          `/posts-category/?site_domain=unplugwell.com&category_slug=${slug}`,
+          { method: "GET" }
         );
         setRelatedBlogs(response.data.results);
         setFilteredBlogs(response.data.results);
@@ -46,7 +47,7 @@ export default function CategoriesBlogs({ slug }) {
   }, [searchQuery, relatedBlogs]);
 
   return (
-    <main className="py-12 min-h-screen bg-gradient-to-r from-indigo-50 to-pink-50">
+    <main className="py-12 min-h-screen">
       <section className="relative py-20 bg-gradient-to-br from-purple-900 via-indigo-900 to-purple-900">
         <div className="absolute inset-0 bg-grid-white/[0.05]" />
         <div className="relative container mx-auto px-6">
@@ -110,9 +111,7 @@ export default function CategoriesBlogs({ slug }) {
                       <h3 className="text-xl font-bold text-gray-900 mb-2 hover:text-purple-600">
                         {blog.title}
                       </h3>
-                      <p className="text-gray-600 flex-grow">
-                        {blog.excerpt}
-                      </p>
+                      <p className="text-gray-600 flex-grow">{blog.excerpt}</p>
                       <div className="flex items-center gap-3 my-3">
                         <div className="w-8 h-8 rounded-full border-2 border-purple-100 flex items-center justify-center bg-purple-100 text-purple-600 font-semibold">
                           {blog.author.full_name.charAt(0)}
@@ -131,9 +130,7 @@ export default function CategoriesBlogs({ slug }) {
                           <Clock className="h-4 w-4" />
                           {moment(blog.published_at).startOf("hour").fromNow()}
                         </span>
-                        <button className="text-purple-600">
-                          Read More
-                        </button>
+                        <button className="text-purple-600">Read More</button>
                       </div>
                     </div>
                   </article>
@@ -142,9 +139,7 @@ export default function CategoriesBlogs({ slug }) {
             ))}
           </Swiper>
         ) : (
-          <div className="text-center text-gray-600">
-            No Blogs Available.
-          </div>
+          <div className="text-center text-gray-600">No Blogs Available.</div>
         )}
       </section>
     </main>

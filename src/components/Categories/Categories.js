@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { ArrowRight, Search, Folder } from "lucide-react";
-import axios from "axios";
 import Link from "next/link";
+import ajaxCall from "@/helpers/ajaxCall";
 
 const gradientColors = [
   "from-pink-500 to-red-500",
@@ -21,8 +21,9 @@ export default function Categories() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(
-          "https://peekly.in/blog/api/get-categories/?site=unplugwell.com"
+        const response = await ajaxCall(
+          "/get-categories/?site=unplugwell.com",
+          { method: "GET" }
         );
         setCategories(
           response.data.results.map((item, index) => ({
@@ -48,7 +49,7 @@ export default function Categories() {
   );
 
   return (
-    <main className="py-12 min-h-screen bg-gradient-to-r from-indigo-50 to-pink-50">
+    <main className="py-12 min-h-screen">
       <section className="relative py-20 bg-gradient-to-br from-purple-900 via-indigo-900 to-purple-900">
         <div className="absolute inset-0 bg-grid-white/[0.05]" />
         <div className="relative container mx-auto px-6">

@@ -1,14 +1,11 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
-import AdUnit from "@/components/AdUnit/AdUnit";
 import {
   Clock,
   Calendar,
   Facebook,
   Twitter,
   Instagram,
-  ArrowLeft,
   Tag,
   Eye,
   Sparkles,
@@ -25,6 +22,8 @@ import {
 } from "lucide-react";
 import moment from "moment";
 import { motion } from "framer-motion";
+import ajaxCall from "@/helpers/ajaxCall";
+import AdUnit from "@/components/AdUnit/AdUnit";
 import RelatedArticles from "../RelatedArticles/RelatedArticles";
 
 export default function BlogDetails({ slug }) {
@@ -56,9 +55,7 @@ export default function BlogDetails({ slug }) {
     if (!slug) return;
     const fetchBlog = async () => {
       try {
-        const response = await axios.get(
-          `https://peekly.in/blog/api/post/${slug}/`
-        );
+        const response = await ajaxCall(`/post/${slug}/`, { method: "GET" });
         setBlog(response.data);
       } catch (error) {
         console.log("error", error);
@@ -83,8 +80,9 @@ export default function BlogDetails({ slug }) {
     const fetchRelatedBlogs = async () => {
       if (!category) return;
       try {
-        const response = await axios.get(
-          `https://peekly.in/blog/api/posts-category/?site_domain=unplugwell.com&category_name=${category}`
+        const response = await ajaxCall(
+          `/posts-category/?site_domain=unplugwell.com&category_name=${category}`,
+          { method: "GET" }
         );
         setRelatedBlogs(response.data.results);
       } catch (error) {
@@ -689,7 +687,7 @@ export default function BlogDetails({ slug }) {
             <RelatedArticles relatedBlogs={relatedBlogs} />
           </div>
           <div className="my-8">
-            <AdUnit format="rectangle" />
+            <AdUnit format="banner" />
           </div>
         </div>
         <div className="w-64 lg:w-80 p-6 border-l border-gray-200 flex-shrink-0 overflow-y-auto bg-backgroundColor-paper">
@@ -759,44 +757,38 @@ export default function BlogDetails({ slug }) {
             </motion.div>
           )}
           {blog.tags?.length > 0 && (
-            <div className="bg-backgroundColor-paper rounded-card p-4 shadow-sm border border-gray-200 mt-6 mb-6">
-              <div className="mb-6">
-                <AdUnit format="sidebar" />
-              </div>
+            <div className="mt-6 mb-6">
+              <AdUnit format="banner" />
             </div>
           )}
           {blog.author && (
-            <div>
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                className="bg-gradient-to-br from-indigo-50 to-pink-50 rounded-xl p-6 shadow-md"
-              >
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                  About the Author
-                </h3>
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-600 to-pink-600 flex items-center justify-center text-white text-2xl font-semibold mb-3">
-                    {blog.author.full_name.charAt(0)}
-                  </div>
-                  <h4 className="text-xl font-semibold text-gray-900">
-                    {blog.author.full_name}
-                  </h4>
-                  <p className="text-gray-600 mt-2">
-                    Content creator and specialist in well-being topics.
-                    Passionate about helping people unplug and find balance in
-                    their lives.
-                  </p>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="bg-gradient-to-br from-indigo-50 to-pink-50 rounded-xl p-6 shadow-md"
+            >
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                About the Author
+              </h3>
+              <div className="flex flex-col items-center text-center">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-600 to-pink-600 flex items-center justify-center text-white text-2xl font-semibold mb-3">
+                  {blog.author.full_name.charAt(0)}
                 </div>
-              </motion.div>
-              <div className="bg-backgroundColor-paper rounded-card p-4 shadow-sm border border-gray-200 mt-6 mb-6">
-                <div className="mb-6">
-                  <AdUnit format="sidebar" />
-                </div>
+                <h4 className="text-xl font-semibold text-gray-900">
+                  {blog.author.full_name}
+                </h4>
+                <p className="text-gray-600 mt-2">
+                  Content creator and specialist in well-being topics.
+                  Passionate about helping people unplug and find balance in
+                  their lives.
+                </p>
               </div>
-            </div>
+            </motion.div>
           )}
+          <div className="mt-6 mb-6">
+            <AdUnit format="banner" />
+          </div>
         </div>
       </div>
     </main>
