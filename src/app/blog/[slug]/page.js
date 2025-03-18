@@ -1,4 +1,4 @@
-import axios from "axios";
+import ajaxCall from "@/helpers/ajaxCall";
 import ResponsiveBlogContainer from "@/components/BlogDetails/ResponsiveBlogContainer";
 
 export const generateMetadata = async ({ params }) => {
@@ -11,9 +11,7 @@ export const generateMetadata = async ({ params }) => {
         description: "Unplugwell Blog",
       };
     }
-    const { data: blog } = await axios.get(
-      `https://peekly.in/blog/api/post/${slug}/`
-    );
+    const { data: blog } = await ajaxCall(`/post/${slug}/`, { method: "GET" });
     return {
       title: blog.meta_title,
       description: blog.meta_description,

@@ -11,10 +11,10 @@ import {
   ChevronRight,
   BookOpen,
 } from "lucide-react";
-import axios from "axios";
 import moment from "moment";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import ajaxCall from "@/helpers/ajaxCall";
 
 export default function Blog() {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -32,10 +32,10 @@ export default function Blog() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get(
-          `https://peekly.in/blog/api/posts/?site_domain=unplugwell.com&page=${page}`
+        const response = await ajaxCall(
+          `/posts/?site_domain=unplugwell.com&page=${page}`,
+          { method: "GET" }
         );
-
         if (page === 1) {
           if (response.data.results.length > 0) {
             setFeaturedBlog(response.data.results[0]);
@@ -60,8 +60,9 @@ export default function Blog() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(
-          "https://peekly.in/blog/api/get-categories/?site=unplugwell.com"
+        const response = await ajaxCall(
+          "/get-categories/?site=unplugwell.com",
+          { method: "GET" }
         );
         setCategories((prev) => [
           "All",
@@ -102,7 +103,7 @@ export default function Blog() {
   };
 
   return (
-    <main className="py-12 min-h-screen bg-gradient-to-r from-indigo-50 to-pink-50">
+    <main className="py-10 min-h-screen ">
       <section className="relative py-20 bg-gradient-to-br from-purple-900 via-indigo-900 to-purple-900">
         <div className="absolute inset-0 bg-grid-white/[0.05]" />
         <div className="absolute -inset-x-0 top-0 h-40 bg-[url('/pattern-light.svg')] opacity-10" />

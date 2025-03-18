@@ -1,4 +1,4 @@
-const { default: axios } = require("axios");
+const { default: ajaxCall } = require("@/helpers/ajaxCall");
 
 module.exports = {
   siteUrl: "https://unplugwell.com/",
@@ -36,13 +36,15 @@ module.exports = {
 
   additionalPaths: async () => {
     try {
-      const blogResponse = await axios.get(
-        "https://peekly.in/blog/api/all-posts/?site_domain=unplugwell.com"
+      const blogResponse = await ajaxCall(
+        "/all-posts/?site_domain=unplugwell.com",
+        { method: "GET" }
       );
       const blogPosts = blogResponse.data.results;
 
-      const categoryResponse = await axios.get(
-        "https://peekly.in/blog/api/get-categories/?site=unplugwell.com"
+      const categoryResponse = await ajaxCall(
+        "/get-categories/?site=unplugwell.com",
+        { method: "GET" }
       );
       const categories = categoryResponse.data.results;
 

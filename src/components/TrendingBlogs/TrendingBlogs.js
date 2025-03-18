@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { TrendingUp, Clock, ArrowRight, BookCheck } from "lucide-react";
-import axios from "axios";
 import moment from "moment";
+import ajaxCall from "@/helpers/ajaxCall";
+import { TrendingUp, Clock, ArrowRight, BookCheck } from "lucide-react";
 
 const TrendingBlogs = () => {
   const [loading, setLoading] = useState(true);
@@ -12,8 +12,9 @@ const TrendingBlogs = () => {
   useEffect(() => {
     const fetchTrendingBlogs = async () => {
       try {
-        const response = await axios.get(
-          "https://peekly.in/blog/api/posts-popular/?site_domain=unplugwell.com"
+        const response = await ajaxCall(
+          "/posts-popular/?site_domain=unplugwell.com",
+          { method: "GET" }
         );
         setTrendingBlogs(response.data.results);
       } catch (error) {

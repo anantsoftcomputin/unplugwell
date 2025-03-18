@@ -2,7 +2,7 @@
 import { useForm, Controller } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
+import ajaxCall from "@/helpers/ajaxCall";
 import {
   Mail,
   MessageSquare,
@@ -30,11 +30,10 @@ const ContactUs = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(
-        "https://peekly.in/blog/api/message/message/",
-        { ...data, site: "2" }
-      );
-
+      const response = await ajaxCall("/message/message/", {
+        method: "POST",
+        data: { ...data, site: "2" },
+      });
       if (response.status === 200 || response.status === 201) {
         toast.success("Message sent successfully! 🎉");
         reset();
@@ -48,7 +47,7 @@ const ContactUs = () => {
   };
 
   return (
-    <div className="py-12 min-h-screen bg-gradient-to-r from-indigo-50 to-pink-50 px-4 sm:px-6 lg:px-8">
+    <div className="py-12 min-h-screen px-4 sm:px-6 lg:px-8">
       <ToastContainer position="top-right" autoClose={3000} />
       <div className="relative py-16 sm:py-20">
         <div className="absolute inset-0 bg-grid-white/[0.05]" />

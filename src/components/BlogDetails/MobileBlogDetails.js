@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import {
   Clock,
   Calendar,
@@ -14,6 +13,7 @@ import {
 } from "lucide-react";
 import moment from "moment";
 import { motion } from "framer-motion";
+import ajaxCall from "@/helpers/ajaxCall";
 import BlogTicker from "../RelatedArticles/BlogTicker";
 import RelatedArticles from "../RelatedArticles/RelatedArticles";
 
@@ -29,9 +29,7 @@ export default function BlogDetails({ slug }) {
     if (!slug) return;
     const fetchBlog = async () => {
       try {
-        const response = await axios.get(
-          `https://peekly.in/blog/api/post/${slug}/`
-        );
+        const response = await ajaxCall(`/post/${slug}/`, { method: "GET" });
         setBlog(response.data);
       } catch (error) {
         console.log("error", error);
@@ -45,10 +43,10 @@ export default function BlogDetails({ slug }) {
     const fetchRelatedBlogs = async () => {
       if (!category) return;
       try {
-        const response = await axios.get(
-          `https://peekly.in/blog/api/posts-category/?site_domain=unplugwell.com&category_name=${category}`
+        const response = await ajaxCall(
+          `/posts-category/?site_domain=unplugwell.com&category_name=${category}`,
+          { method: "GET" }
         );
-
         setRelatedBlogs(response.data.results);
       } catch (error) {
         console.log("error", error);

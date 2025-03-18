@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
+import ajaxCall from "@/helpers/ajaxCall";
 import { Mail, CheckCircle, Sparkles, Send } from "lucide-react";
 
 const benefits = [
@@ -30,11 +30,10 @@ const NewsLetter = () => {
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      const response = await axios.post(
-        "https://peekly.in/blog/api/subscription/subscribe-create/",
-        { email: data.email, site: "2" }
-      );
-
+      const response = await ajaxCall("/subscription/subscribe-create/", {
+        method: "POST",
+        data: { email: data.email, site: "2" },
+      });
       if (response.status === 200 || response.status === 201) {
         toast.success("Subscribed successfully! 🎉");
         reset();

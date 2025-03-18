@@ -1,8 +1,8 @@
 "use client";
-import axios from "axios";
 import moment from "moment";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import ajaxCall from "@/helpers/ajaxCall";
 import { Calendar, Clock, Tag, ChevronDown } from "lucide-react";
 
 const LatestBlogs = () => {
@@ -16,8 +16,9 @@ const LatestBlogs = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get(
-          "https://peekly.in/blog/api/posts-latest/?site_domain=unplugwell.com"
+        const response = await ajaxCall(
+          "/posts-latest/?site_domain=unplugwell.com",
+          { method: "GET" }
         );
         setBlogs(response.data.results);
       } catch (error) {
@@ -33,8 +34,9 @@ const LatestBlogs = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(
-          "https://peekly.in/blog/api/get-categories/?site=unplugwell.com"
+        const response = await ajaxCall(
+          "/get-categories/?site=unplugwell.com",
+          { method: "GET" }
         );
         setCategories((prev) => [
           "All",
