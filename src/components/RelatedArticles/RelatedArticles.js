@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Sparkles, Tag } from "lucide-react";
+
 export default function RelatedArticles({ relatedBlogs }) {
   return (
     relatedBlogs.length > 0 && (
@@ -20,10 +21,10 @@ export default function RelatedArticles({ relatedBlogs }) {
             <motion.div
               key={relatedBlog.id}
               whileHover={{ y: -5 }}
-              className="rounded-card overflow-hidden shadow-card bg-backgroundColor-paper"
+              className="rounded-lg overflow-hidden shadow-lg bg-white"
             >
               {relatedBlog.featured_image && (
-                <div className="h-40 overflow-hidden">
+                <div className="h-40 overflow-hidden relative">
                   <img
                     src={relatedBlog.featured_image}
                     alt={relatedBlog.title}
@@ -38,10 +39,10 @@ export default function RelatedArticles({ relatedBlogs }) {
                 </div>
               )}
               <div className="p-4">
-                <h3 className="text-xl font-bold text-gray-900 mb-2 hover:text-purple-600">
+                <h3 className="text-xl font-bold text-gray-900 mb-2 hover:text-purple-600 transition-colors">
                   {relatedBlog.title}
                 </h3>
-                <p className="text-gray-600 flex-grow">{relatedBlog.excerpt}</p>
+                <p className="text-gray-600">{relatedBlog.excerpt}</p>
               </div>
             </motion.div>
           ))}

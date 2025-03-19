@@ -45,7 +45,6 @@ export default function RootLayout({ children }) {
         <Header />
         <AdBanner />
         {children}
-        <AdBanner />
         <Footer />
       </body>
     </html>

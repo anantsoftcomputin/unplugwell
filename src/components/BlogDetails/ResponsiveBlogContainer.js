@@ -4,7 +4,7 @@ import MobileBlogDetails from "./MobileBlogDetails";
 
 export default function ResponsiveBlogContainer({ slug }) {
   return (
-    <div className="bg-backgroundColor-default">
+    <div>
       <div className="hidden md:block">
         <BlogDetails slug={slug} />
       </div>
