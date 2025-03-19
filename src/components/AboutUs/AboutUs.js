@@ -89,7 +89,7 @@ const AboutUs = () => {
   }, []);
 
   return (
-    <main className="py-12 min-h-screen bg-gray-50">
+    <main className="pt-12 min-h-screen bg-gray-50">
       <section className="relative py-20 bg-gradient-to-br from-purple-900 via-indigo-900 to-purple-900">
         <div className="absolute inset-0 bg-grid-white/[0.05]" />
         <div className="relative container mx-auto px-6">
@@ -111,7 +111,7 @@ const AboutUs = () => {
             {stats.map((stat, index) => (
               <div
                 key={stat.label + index}
-                className={`card text-center p-6 bg-lavenderSecondary-light rounded-xl shadow-card hover:shadow-card-hover transform transition-all duration-500 hover:-translate-y-2 ${
+                className={`text-center p-6 bg-purple-50 rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-2 ${
                   isVisible
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-10"
@@ -132,11 +132,11 @@ const AboutUs = () => {
           </div>
         </div>
       </section>
-      <section className="py-20 bg-lavenderSecondary-light">
+      <section className="py-20 bg-purple-100">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div
-              className={`transform transition-all duration-700 ${
+              className={`transition-all duration-700 ${
                 isVisible
                   ? "opacity-100 translate-x-0"
                   : "opacity-0 -translate-x-10"
@@ -171,7 +171,7 @@ const AboutUs = () => {
               </div>
             </div>
             <div
-              className={`relative transform transition-all duration-700 ${
+              className={`relative transition-all duration-700 ${
                 isVisible
                   ? "opacity-100 translate-x-0"
                   : "opacity-0 translate-x-10"
@@ -181,17 +181,17 @@ const AboutUs = () => {
                 <img
                   src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800"
                   alt="Team Meeting"
-                  className="w-full h-auto rounded-2xl object-cover transform transition-all duration-700 hover:scale-105"
+                  className="w-full h-auto rounded-2xl object-cover transition-all duration-700 hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-lavender-dark/50 to-transparent opacity-60"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-purple-900/50 to-transparent opacity-60"></div>
               </div>
-              <div className="absolute -bottom-6 -left-6 w-48 h-48 bg-lavender rounded-2xl -z-10 opacity-50 blur-lg"></div>
-              <div className="absolute -top-6 -right-6 w-32 h-32 bg-accent-periwinkle rounded-full -z-10 opacity-50 blur-lg"></div>
+              <div className="absolute -bottom-6 -left-6 w-48 h-48 bg-purple-200 rounded-2xl -z-10 opacity-50 blur-lg"></div>
+              <div className="absolute -top-6 -right-6 w-32 h-32 bg-indigo-200 rounded-full -z-10 opacity-50 blur-lg"></div>
             </div>
           </div>
         </div>
       </section>
-      <section className="py-20 bg-backgroundColor-paper">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
           <h2 className="text-center text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent mb-4">
             What We Offer
@@ -204,16 +204,14 @@ const AboutUs = () => {
             {resources.map((resource, index) => (
               <div
                 key={index}
-                className={`card bg-lavenderSecondary-light rounded-xl p-6 shadow-card hover:shadow-card-hover transition-all duration-500 transform hover:-translate-y-2 border border-lavender-light/10 ${
+                className={`bg-purple-50 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-purple-100 ${
                   isVisible
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-10"
                 }`}
                 style={{ transitionDelay: `${index * 100 + 300}ms` }}
               >
-                <div
-                  className={`w-14 h-14 rounded-lg bg-purple-100 flex items-center justify-center mb-5`}
-                >
+                <div className="w-14 h-14 rounded-lg bg-purple-100 flex items-center justify-center mb-5">
                   <resource.icon className="h-7 w-7 text-purple-600" />
                 </div>
                 <h3 className="text-xl font-semibold text-purple-600 mb-3">

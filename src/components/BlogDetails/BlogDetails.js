@@ -422,7 +422,7 @@ export default function BlogDetails({ slug }) {
   };
 
   return (
-    <main className="h-screen flex flex-col bg-gradient-to-r from-indigo-50/30 to-pink-50/30 overflow-hidden mt-4 pt-16">
+    <main className="h-screen flex flex-col bg-gradient-to-r from-indigo-50/30 to-pink-50/30 overflow-hidden pt-16">
       <div className="fixed top-0 left-0 w-full z-50 h-1 bg-transparent">
         <div
           className="h-full bg-gradient-to-r from-indigo-600 to-pink-600"
@@ -441,10 +441,10 @@ export default function BlogDetails({ slug }) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
           transition={{ duration: 0.3 }}
-          className="fixed bottom-32 right-6 w-80 z-50 rounded-card bg-gradient-to-br from-indigo-50 to-pink-50 p-6 shadow-md"
+          className="fixed bottom-32 right-6 w-80 z-50 rounded-lg bg-gradient-to-br from-indigo-50 to-pink-50 p-6 shadow-md"
         >
           <div className="flex justify-between items-center mb-3">
-            <h3 className="text-h6 text-gray-900 font-medium flex items-center">
+            <h3 className="text-lg text-gray-900 font-medium flex items-center">
               <Headphones className="w-4 h-4 bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent mr-2" />
               Listen to Article
             </h3>
@@ -564,8 +564,8 @@ export default function BlogDetails({ slug }) {
           </div>
         </motion.div>
       )}
-      <div className="flex-grow flex overflow-hidden pb-16">
-        <div className="w-64 lg:w-80 p-6 border-r border-gray-200 flex-shrink-0 overflow-y-auto bg-backgroundColor-paper">
+      <div className="flex-grow flex overflow-hidden">
+        <div className="w-64 lg:w-80 p-6 border-r border-gray-200 flex-shrink-0 overflow-y-auto bg-white">
           {tableOfContents.length > 0 && (
             <motion.div
               initial={{ opacity: 0, x: 20 }}
@@ -583,7 +583,7 @@ export default function BlogDetails({ slug }) {
                     <li key={heading.id}>
                       <button
                         onClick={() => scrollToHeading(heading.id)}
-                        className="flex items-center w-full px-2 py-1.5 text-sm text-textColor-secondary hover:text-purple-600 hover:bg-lavender-light/20 rounded transition-colors"
+                        className="flex items-center w-full px-2 py-1.5 text-sm text-gray-600 hover:text-purple-600 hover:bg-purple-50/20 rounded transition-colors"
                       >
                         <ArrowRight className="h-3 w-3 text-indigo-600 mr-2 flex-shrink-0" />
                         <span className="truncate">{heading.title}</span>
@@ -599,7 +599,7 @@ export default function BlogDetails({ slug }) {
                 </h4>
                 <button
                   onClick={handlePlay}
-                  className="w-full flex items-center justify-center gap-2 py-2 text-sm rounded-button bg-gradient-to-r from-indigo-600 to-pink-600 text-white hover:from-indigo-700 hover:to-pink-700 transition-colors mb-4"
+                  className="w-full flex items-center justify-center gap-2 py-2 text-sm rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white hover:from-indigo-700 hover:to-pink-700 transition-colors mb-4"
                 >
                   {isPlaying ? (
                     <Pause className="h-4 w-4" />
@@ -626,7 +626,7 @@ export default function BlogDetails({ slug }) {
         </div>
         <div
           ref={bodyRef}
-          className="flex-grow h-full overflow-y-auto pb-12 bg-backgroundColor-default"
+          className="flex-grow h-full overflow-y-auto pb-12 bg-white"
         >
           <div className="max-w-3xl mx-auto px-6 py-6">
             <div ref={contentRef}>
@@ -667,7 +667,7 @@ export default function BlogDetails({ slug }) {
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
-                  className="my-8 rounded-card overflow-hidden shadow-card"
+                  className="my-8 rounded-lg overflow-hidden shadow-lg"
                 >
                   <img
                     src={blog.featured_image}
@@ -687,10 +687,10 @@ export default function BlogDetails({ slug }) {
             <RelatedArticles relatedBlogs={relatedBlogs} />
           </div>
           <div className="my-8">
-            <AdUnit format="banner" />
+            <AdUnit />
           </div>
         </div>
-        <div className="w-64 lg:w-80 p-6 border-l border-gray-200 flex-shrink-0 overflow-y-auto bg-backgroundColor-paper">
+        <div className="w-64 lg:w-80 p-6 border-l border-gray-200 flex-shrink-0 overflow-y-auto bg-white">
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -703,13 +703,6 @@ export default function BlogDetails({ slug }) {
             </h3>
             <div className="grid grid-cols-3 gap-3">
               <button
-                className="flex flex-col items-center justify-center p-3 rounded-lg bg-[#1DA1F2]/10 text-[#1DA1F2] hover:bg-[#1DA1F2]/20 transition-colors"
-                onClick={() => window.open("https://x.com/unplugwell")}
-              >
-                <Twitter className="h-6 w-6 mb-1" />
-                <span className="text-xs">Twitter</span>
-              </button>
-              <button
                 className="flex flex-col items-center justify-center p-3 rounded-lg bg-[#1877F2]/10 text-[#1877F2] hover:bg-[#1877F2]/20 transition-colors"
                 onClick={() =>
                   window.open(
@@ -720,6 +713,13 @@ export default function BlogDetails({ slug }) {
               >
                 <Facebook className="h-6 w-6 mb-1" />
                 <span className="text-xs">Facebook</span>
+              </button>
+              <button
+                className="flex flex-col items-center justify-center p-3 rounded-lg bg-[#1DA1F2]/10 text-[#1DA1F2] hover:bg-[#1DA1F2]/20 transition-colors"
+                onClick={() => window.open("https://x.com/unplugwell")}
+              >
+                <Twitter className="h-6 w-6 mb-1" />
+                <span className="text-xs">Twitter</span>
               </button>
               <button
                 className="flex flex-col items-center justify-center p-3 rounded-lg bg-[#0A66C2]/10 text-[#0A66C2] hover:bg-[#0A66C2]/20 transition-colors"
@@ -737,7 +737,7 @@ export default function BlogDetails({ slug }) {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="bg-gradient-to-br from-indigo-50 to-pink-50 rounded-xl p-6 shadow-md"
+              className="bg-gradient-to-br from-indigo-50 to-pink-50 rounded-xl p-6 shadow-md mb-6"
             >
               <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                 <Tag className="h-4 w-4 text-indigo-600 mr-2" />
@@ -755,11 +755,6 @@ export default function BlogDetails({ slug }) {
                 ))}
               </div>
             </motion.div>
-          )}
-          {blog.tags?.length > 0 && (
-            <div className="mt-6 mb-6">
-              <AdUnit format="banner" />
-            </div>
           )}
           {blog.author && (
             <motion.div
@@ -786,9 +781,6 @@ export default function BlogDetails({ slug }) {
               </div>
             </motion.div>
           )}
-          <div className="mt-6 mb-6">
-            <AdUnit format="banner" />
-          </div>
         </div>
       </div>
     </main>
