@@ -111,9 +111,22 @@ const Footer = () => {
         </div>
         <div className="border-t border-gray-800 pt-8 mt-8 text-center">
           <p className="text-gray-400 text-sm">
-            {currentYear
-              ? `© ${currentYear} Unplugwell. All rights reserved.`
-              : "Loading..."}
+            {currentYear ? (
+              <div>
+                © {currentYear} Unplugwell. All rights reserved. | Design &
+                Developed By{" "}
+                <a
+                  href="https://anantsoftcomputing.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white font-semibold hover:text-gray-400 transition-colors duration-300"
+                >
+                  Anant Soft Computing
+                </a>
+              </div>
+            ) : (
+              "Loading..."
+            )}
           </p>
         </div>
       </div>
