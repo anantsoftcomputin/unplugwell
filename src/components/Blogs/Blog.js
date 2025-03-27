@@ -215,12 +215,12 @@ export default function Blog() {
                 </div>
               )}
             </div>
-            <div className="hidden md:flex items-center gap-2">
+            <div className="hidden md:flex flex-wrap justify-center gap-4">
               {categories.map((category, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+                  className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
                     selectedCategory === category
                       ? "bg-purple-600 text-white shadow-lg shadow-purple-500/25 scale-105"
                       : "bg-purple-100 text-purple-600 hover:bg-purple-200"
