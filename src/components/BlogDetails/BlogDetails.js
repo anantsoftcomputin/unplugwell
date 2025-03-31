@@ -461,11 +461,10 @@ export default function BlogDetails({ slug }) {
             <button
               onClick={handlePrevious}
               disabled={currentSectionIndex <= 0 || !speechSections.length}
-              className={`p-2 rounded-full ${
-                currentSectionIndex <= 0 || !speechSections.length
+              className={`p-2 rounded-full ${currentSectionIndex <= 0 || !speechSections.length
                   ? "text-gray-400 bg-gray-100"
                   : "text-gray-900 bg-gradient-to-r from-indigo-50 to-pink-50 hover:from-indigo-100 hover:to-pink-100 transition-colors"
-              }`}
+                }`}
             >
               <SkipBack className="w-4 h-4" />
             </button>
@@ -483,11 +482,10 @@ export default function BlogDetails({ slug }) {
             <button
               onClick={handleStop}
               disabled={!isPlaying}
-              className={`p-2 rounded-full ${
-                !isPlaying
+              className={`p-2 rounded-full ${!isPlaying
                   ? "text-gray-400 bg-gray-100"
                   : "text-gray-900 bg-gradient-to-r from-indigo-50 to-pink-50 hover:from-indigo-100 hover:to-pink-100 transition-colors"
-              }`}
+                }`}
             >
               <Square className="w-4 h-4" />
             </button>
@@ -497,12 +495,11 @@ export default function BlogDetails({ slug }) {
                 currentSectionIndex >= speechSections.length - 1 ||
                 !speechSections.length
               }
-              className={`p-2 rounded-full ${
-                currentSectionIndex >= speechSections.length - 1 ||
-                !speechSections.length
+              className={`p-2 rounded-full ${currentSectionIndex >= speechSections.length - 1 ||
+                  !speechSections.length
                   ? "text-gray-400 bg-gray-100"
                   : "text-gray-900 bg-gradient-to-r from-indigo-50 to-pink-50 hover:from-indigo-100 hover:to-pink-100 transition-colors"
-              }`}
+                }`}
             >
               <SkipForward className="w-4 h-4" />
             </button>
@@ -627,7 +624,7 @@ export default function BlogDetails({ slug }) {
           ref={bodyRef}
           className="flex-grow h-full overflow-y-auto pb-12 bg-white"
         >
-          <div className="max-w-3xl mx-auto px-6 py-6">
+          <div className="max-w-6xl mx-auto px-6 py-6">
             <div ref={contentRef}>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -679,8 +676,8 @@ export default function BlogDetails({ slug }) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="prose prose-lg prose-headings:text-gray-900 prose-p:text-gray-600 max-w-none bg-gradient-to-br from-indigo-50 to-pink-50 rounded-xl p-6 shadow-md"
                 dangerouslySetInnerHTML={{ __html: blog.content }}
+                className="p-6 prose max-w-none bg-gradient-to-br from-indigo-50 to-pink-50 rounded-xl shadow-md"
               />
             </div>
             <RelatedArticles relatedBlogs={relatedBlogs} />

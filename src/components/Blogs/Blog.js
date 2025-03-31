@@ -10,6 +10,8 @@ import {
   Sparkles,
   ChevronRight,
   BookOpen,
+  ChevronLeft,
+  Ellipsis,
 } from "lucide-react";
 import moment from "moment";
 import Link from "next/link";
@@ -24,29 +26,33 @@ export default function Blog() {
   const [blogs, setBlogs] = useState([]);
   const [filteredBlogs, setFilteredBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
   const [viewMode, setViewMode] = useState("grid");
   const [featuredBlog, setFeaturedBlog] = useState(null);
+
+  const blogsPerPage = 6;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const indexOfLastBlog = currentPage * blogsPerPage;
+  const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
+  const currentBlogs = filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
         const response = await ajaxCall(
-          `/posts/?site_domain=unplugwell.com&page=${page}`,
+          "/all-posts/?site_domain=unplugwell.com",
           { method: "GET" }
         );
-        if (page === 1) {
-          if (response.data.results.length > 0) {
-            setFeaturedBlog(response.data.results[0]);
-            setBlogs(response.data.results.slice(1));
-          } else {
-            setBlogs(response.data.results);
-          }
+
+        if (response.data.results.length > 0) {
+          setFeaturedBlog(response.data.results[0]);
+          setBlogs(response.data.results.slice(1));
         } else {
-          setBlogs((prev) => [...prev, ...response.data.results]);
+          setBlogs(response.data.results);
         }
-        setHasMore(response.data.next !== null);
       } catch (error) {
         console.log("error", error);
       } finally {
@@ -55,7 +61,7 @@ export default function Blog() {
     };
 
     fetchBlogs();
-  }, [page]);
+  }, []);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -86,24 +92,120 @@ export default function Blog() {
     }
 
     if (searchQuery) {
-      filtered = filtered.filter((blog) =>
-        blog.title.toLowerCase().includes(searchQuery.toLowerCase())
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(
+        (blog) =>
+          blog.title.toLowerCase().includes(query) ||
+          blog.category.name.toLowerCase().includes(query) ||
+          (blog.tags &&
+            blog.tags.some((tag) => tag.name.toLowerCase().includes(query))) ||
+          (blog.author && blog.author.full_name.toLowerCase().includes(query))
       );
     }
-    setFilteredBlogs(filtered);
-  }, [selectedCategory, searchQuery, blogs]);
 
-  const loadMore = () => {
-    setPage((prev) => prev + 1);
-  };
+    setFilteredBlogs(filtered);
+    setCurrentPage(1); 
+  }, [selectedCategory, searchQuery, blogs]);
 
   const clearFilters = () => {
     setSelectedCategory("All");
     setSearchQuery("");
   };
 
+  const PaginationControls = () => {
+    const maxVisiblePages = 5;
+
+    if (totalPages <= 1) return null;
+
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    return (
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8">
+        <div className="text-sm text-gray-600">
+          Showing {indexOfFirstBlog + 1}-
+          {Math.min(indexOfLastBlog, filteredBlogs.length)} of{" "}
+          {filteredBlogs.length} articles
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="p-2 rounded-full bg-white shadow-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 transition-colors"
+            aria-label="Previous page"
+          >
+            <ChevronLeft className="w-5 h-5 text-gray-600" />
+          </button>
+          {startPage > 1 && (
+            <>
+              <button
+                onClick={() => paginate(1)}
+                className={`w-10 h-10 rounded-full ${
+                  currentPage === 1
+                    ? "bg-purple-600 text-white"
+                    : "bg-white text-gray-600 hover:bg-purple-50"
+                } shadow-md`}
+              >
+                1
+              </button>
+              {startPage > 2 && (
+                <span className="px-2 text-gray-500">
+                  <Ellipsis className="w-5 h-5" />
+                </span>
+              )}
+            </>
+          )}
+          {Array.from({ length: endPage - startPage + 1 }, (_, i) => (
+            <button
+              key={startPage + i}
+              onClick={() => paginate(startPage + i)}
+              className={`w-10 h-10 rounded-full ${
+                currentPage === startPage + i
+                  ? "bg-purple-600 text-white"
+                  : "bg-white text-gray-600 hover:bg-purple-50"
+              } shadow-md`}
+            >
+              {startPage + i}
+            </button>
+          ))}
+          {endPage < totalPages && (
+            <>
+              {endPage < totalPages - 1 && (
+                <span className="px-2 text-gray-500">
+                  <Ellipsis className="w-5 h-5" />
+                </span>
+              )}
+              <button
+                onClick={() => paginate(totalPages)}
+                className={`w-10 h-10 rounded-full ${
+                  currentPage === totalPages
+                    ? "bg-purple-600 text-white"
+                    : "bg-white text-gray-600 hover:bg-purple-50"
+                } shadow-md`}
+              >
+                {totalPages}
+              </button>
+            </>
+          )}
+          <button
+            onClick={() => paginate(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="p-2 rounded-full bg-white shadow-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 transition-colors"
+            aria-label="Next page"
+          >
+            <ChevronRight className="w-5 h-5 text-gray-600" />
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <main className="py-10 min-h-screen ">
+    <main className="py-10 min-h-screen">
       <section className="relative py-20 bg-gradient-to-br from-purple-900 via-indigo-900 to-purple-900">
         <div className="absolute inset-0 bg-grid-white/[0.05]" />
         <div className="absolute -inset-x-0 top-0 h-40 bg-[url('/pattern-light.svg')] opacity-10" />
@@ -261,7 +363,7 @@ export default function Blog() {
                 </div>
 
                 <div className="md:w-1/2 p-6 md:p-8 bg-white flex flex-col">
-                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 group-hover:text-purple-600">
+                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 hover:text-purple-600">
                     {featuredBlog.title}
                   </h2>
                   <p className="text-gray-600 text-lg mb-4 line-clamp-3">
@@ -327,7 +429,6 @@ export default function Blog() {
             {filteredBlogs.length === 1 ? "article" : "articles"}
           </div>
         </div>
-
         {loading ? (
           <div
             className={
@@ -389,7 +490,7 @@ export default function Blog() {
                   : "space-y-8"
               }
             >
-              {filteredBlogs.map((blog, index) => (
+              {currentBlogs.map((blog, index) => (
                 <Link key={index} href={`/${blog.slug}`}>
                   <motion.article
                     initial={{ opacity: 0, y: 20 }}
@@ -481,22 +582,7 @@ export default function Blog() {
                 </Link>
               ))}
             </div>
-            {hasMore && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="flex justify-center mt-12"
-              >
-                <button
-                  onClick={loadMore}
-                  className="group px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-full font-medium hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300 relative overflow-hidden"
-                >
-                  <span className="relative z-10">Load More Articles</span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                </button>
-              </motion.div>
-            )}
+            <PaginationControls />
           </div>
         ) : (
           <motion.div
@@ -510,11 +596,6 @@ export default function Blog() {
             <h3 className="text-xl font-bold text-gray-900 mb-2">
               No Articles Found
             </h3>
-            <p className="text-gray-600 mb-6">
-              {searchQuery
-                ? `No results for "${searchQuery}". Try a different search term.`
-                : `No articles available in the ${selectedCategory} category.`}
-            </p>
             <button
               onClick={clearFilters}
               className="px-6 py-2 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors"
