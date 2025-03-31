@@ -23,7 +23,6 @@ import {
 import moment from "moment";
 import { motion } from "framer-motion";
 import ajaxCall from "@/helpers/ajaxCall";
-import AdUnit from "@/components/AdUnit/AdUnit";
 import RelatedArticles from "../RelatedArticles/RelatedArticles";
 
 export default function BlogDetails({ slug }) {
@@ -685,9 +684,6 @@ export default function BlogDetails({ slug }) {
               />
             </div>
             <RelatedArticles relatedBlogs={relatedBlogs} />
-          </div>
-          <div className="my-8">
-            <AdUnit />
           </div>
         </div>
         <div className="w-64 lg:w-80 p-6 border-l border-gray-200 flex-shrink-0 overflow-y-auto bg-white">
