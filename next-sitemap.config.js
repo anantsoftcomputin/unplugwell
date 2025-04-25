@@ -1,13 +1,12 @@
 const { default: axios } = require("axios");
 
 module.exports = {
-  siteUrl: "https://unplugwell.com/",
+  siteUrl: "https://unplugwell.com",
   generateRobotsTxt: true,
   generateIndexSitemap: false,
   sitemapSize: 5000,
 
   transform: async (config, path) => {
-    // Set specific priorities based on routes
     const priorityMap = {
       "/": 1.0,
       "/blogs": 0.9,
@@ -16,7 +15,6 @@ module.exports = {
       "/categories": 0.8,
     };
 
-    // Check if the path has a specific priority assigned
     if (priorityMap.hasOwnProperty(path)) {
       return {
         loc: path,
@@ -29,7 +27,7 @@ module.exports = {
     return {
       loc: path,
       changefreq: "daily",
-      priority: 0.7, // Default priority for other static pages
+      priority: 0.7,
       lastmod: new Date().toISOString(),
     };
   },
