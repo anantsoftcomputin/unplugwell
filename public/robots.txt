@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://unplugwell.com/
+Host: https://unplugwell.com
 
 # Sitemaps
 Sitemap: https://unplugwell.com/sitemap.xml
