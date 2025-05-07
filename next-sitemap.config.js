@@ -1,7 +1,7 @@
 const { default: axios } = require("axios");
 
 module.exports = {
-  siteUrl: "https://unplugwell.com",
+  siteUrl: "https://unplugwell.com/",
   generateRobotsTxt: true,
   generateIndexSitemap: false,
   sitemapSize: 5000,
@@ -15,34 +15,27 @@ module.exports = {
       "/categories": 0.8,
     };
 
-    if (priorityMap.hasOwnProperty(path)) {
-      return {
-        loc: path,
-        changefreq: "daily",
-        priority: priorityMap[path],
-        lastmod: new Date().toISOString(),
-      };
-    }
-
     return {
       loc: path,
       changefreq: "daily",
-      priority: 0.7,
+      priority: priorityMap[path] || 0.7,
       lastmod: new Date().toISOString(),
     };
   },
 
   additionalPaths: async () => {
     try {
-      const blogResponse = await axios.get(
-        "https://peekly.in/blog/api/all-posts/?site_domain=unplugwell.com"
-      );
-      const blogPosts = blogResponse.data.results;
+      const [blogResponse, categoryResponse] = await Promise.all([
+        axios.get(
+          "https://peekly.in/blog/api/all-posts/?site_domain=unplugwell.com"
+        ),
+        axios.get(
+          "https://peekly.in/blog/api/get-categories/?site=unplugwell.com"
+        ),
+      ]);
 
-      const categoryResponse = await axios.get(
-        "https://peekly.in/blog/api/get-categories/?site=unplugwell.com"
-      );
-      const categories = categoryResponse.data.results;
+      const blogPosts = blogResponse.data.results || [];
+      const categories = categoryResponse.data.results || [];
 
       const blogPaths = blogPosts.map((post) => ({
         loc: `/${encodeURIComponent(post.slug)}`,
@@ -60,7 +53,10 @@ module.exports = {
 
       return [...blogPaths, ...categoryPaths];
     } catch (error) {
-      console.error("Error fetching data for sitemap:", error);
+      console.error(
+        "❌ Error generating additionalPaths for sitemap:",
+        error.message
+      );
       return [];
     }
   },
