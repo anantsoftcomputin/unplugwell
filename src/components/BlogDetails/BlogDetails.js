@@ -111,16 +111,6 @@ export default function BlogDetails({ slug }) {
 
           // If Hindi voice is found, use it; otherwise fall back to first available voice
           setSelectedVoice(hindiVoice?.name || availableVoices[0].name);
-
-          // For debugging which voices are available
-          console.log(
-            "Available voices:",
-            availableVoices.map((v) => `${v.name} (${v.lang})`)
-          );
-          console.log(
-            "Selected voice:",
-            hindiVoice?.name || availableVoices[0].name
-          );
         }
       };
 
