@@ -28,6 +28,7 @@ export default function Blog() {
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState("grid");
   const [featuredBlog, setFeaturedBlog] = useState(null);
+  const [error, setError] = useState(null);
 
   const blogsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
@@ -47,14 +48,18 @@ export default function Blog() {
           { method: "GET" }
         );
 
-        if (response.data.results.length > 0) {
+        if (response?.data?.results?.length > 0) {
+          console.log(`Found ${response.data.results.length} blogs`);
           setFeaturedBlog(response.data.results[0]);
           setBlogs(response.data.results.slice(1));
         } else {
-          setBlogs(response.data.results);
+          console.log("No blogs found or invalid response format");
+          setError("No blog posts found. Please check the API response.");
+          setBlogs([]);
         }
       } catch (error) {
-        console.log("error", error);
+        console.error("Error fetching blogs:", error);
+        setError("Failed to fetch blog posts. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -70,12 +75,16 @@ export default function Blog() {
           "/get-categories/?site=unplugwell.com",
           { method: "GET" }
         );
-        setCategories((prev) => [
-          "All",
-          ...response.data.results.map((category) => category.name),
-        ]);
+        if (response?.data?.results?.length > 0) {
+          setCategories((prev) => [
+            "All",
+            ...response.data.results.map((category) => category.name),
+          ]);
+        } else {
+          console.log("No categories found or invalid response");
+        }
       } catch (error) {
-        console.log("error", error);
+        console.error("Error fetching categories:", error);
       }
     };
 
@@ -104,7 +113,7 @@ export default function Blog() {
     }
 
     setFilteredBlogs(filtered);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   }, [selectedCategory, searchQuery, blogs]);
 
   const clearFilters = () => {
@@ -481,6 +490,30 @@ export default function Blog() {
               </div>
             ))}
           </div>
+        ) : error ? (
+          <div className="text-center py-12">
+            <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <X className="h-8 w-8 text-red-600" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">{error}</h3>
+            <p className="text-gray-600 mb-6">
+              There was an issue loading the blog posts. This might be due to a
+              network issue or API configuration.
+            </p>
+            <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-sm text-yellow-800 mb-6">
+              <p className="font-medium">Developer Information:</p>
+              <p>
+                Check browser console for detailed error messages. Make sure
+                your API endpoint is correct and accessible.
+              </p>
+            </div>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-6 py-2 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors"
+            >
+              Retry
+            </button>
+          </div>
         ) : filteredBlogs.length > 0 ? (
           <div>
             <div
@@ -533,15 +566,16 @@ export default function Blog() {
                       </p>
 
                       <div className="flex flex-wrap gap-2 mb-4">
-                        {blog.tags.slice(0, 3).map((tag, index) => (
-                          <span
-                            key={index}
-                            className="px-2 py-1 bg-gray-100 rounded-md text-sm text-gray-600"
-                          >
-                            {tag.name}
-                          </span>
-                        ))}
-                        {blog.tags.length > 3 && (
+                        {blog.tags &&
+                          blog.tags.slice(0, 3).map((tag, index) => (
+                            <span
+                              key={index}
+                              className="px-2 py-1 bg-gray-100 rounded-md text-sm text-gray-600"
+                            >
+                              {tag.name}
+                            </span>
+                          ))}
+                        {blog.tags && blog.tags.length > 3 && (
                           <span className="px-2 py-1 rounded-md text-sm text-gray-500">
                             +{blog.tags.length - 3} more
                           </span>
@@ -551,11 +585,15 @@ export default function Blog() {
                       <div className="mt-auto">
                         <div className="flex items-center gap-3 mb-3">
                           <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-purple-100 flex items-center justify-center bg-purple-100 text-purple-600 font-semibold">
-                            {blog.author.full_name.charAt(0)}
+                            {blog.author && blog.author.full_name
+                              ? blog.author.full_name.charAt(0)
+                              : "?"}
                           </div>
                           <div>
                             <p className="text-xs sm:text-sm font-medium text-gray-900">
-                              {blog.author.full_name}
+                              {blog.author
+                                ? blog.author.full_name
+                                : "Unknown Author"}
                             </p>
                             <p className="text-xs sm:text-sm text-gray-500">
                               {moment(blog.published_at).format("ll")}
