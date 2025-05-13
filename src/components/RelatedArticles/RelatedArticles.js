@@ -1,30 +1,33 @@
 import { motion } from "framer-motion";
 import { Sparkles, Tag } from "lucide-react";
+import Link from "next/link";
 
 export default function RelatedArticles({ relatedBlogs }) {
+  if (!relatedBlogs || relatedBlogs.length === 0) return null;
+
   return (
-    relatedBlogs.length > 0 && (
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.7 }}
-        className="mt-12"
-      >
-        <div className="flex items-center mb-6">
-          <Sparkles className="h-6 w-6 text-indigo-600 mr-3" />
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">
-            Related Articles
-          </h2>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {relatedBlogs.slice(0, 4).map((relatedBlog) => (
-            <motion.div
-              key={relatedBlog.id}
-              whileHover={{ y: -5 }}
-              className="rounded-lg overflow-hidden shadow-lg bg-white"
-            >
+    <motion.section
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.7 }}
+      className="container mx-auto px-6 py-12"
+    >
+      <div className="flex items-center mb-6">
+        <Sparkles className="h-6 w-6 text-indigo-600 mr-3" />
+        <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">
+          Related Articles
+        </h2>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {relatedBlogs.slice(0, 4).map((relatedBlog) => (
+          <motion.article
+            key={relatedBlog.id}
+            whileHover={{ y: -5 }}
+            className="rounded-lg overflow-hidden shadow-lg bg-white hover:shadow-xl transition-shadow duration-300"
+          >
+            <Link href={`/${relatedBlog.slug}`} className="block h-full">
               {relatedBlog.featured_image && (
-                <div className="h-40 overflow-hidden relative">
+                <div className="h-40 sm:h-48 md:h-40 overflow-hidden relative">
                   <img
                     src={relatedBlog.featured_image}
                     alt={relatedBlog.title}
@@ -38,16 +41,16 @@ export default function RelatedArticles({ relatedBlogs }) {
                   </div>
                 </div>
               )}
-              <div className="p-4">
-                <h3 className="text-xl font-bold text-gray-900 mb-2 hover:text-purple-600 transition-colors">
+              <div className="p-4 h-full flex flex-col">
+                <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 hover:text-purple-600 transition-colors">
                   {relatedBlog.title}
                 </h3>
-                <p className="text-gray-600">{relatedBlog.excerpt}</p>
+                <p className="text-gray-600 flex-grow">{relatedBlog.excerpt}</p>
               </div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-    )
+            </Link>
+          </motion.article>
+        ))}
+      </div>
+    </motion.section>
   );
 }
