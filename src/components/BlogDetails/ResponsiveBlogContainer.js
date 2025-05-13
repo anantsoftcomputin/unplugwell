@@ -1,16 +1,14 @@
 "use client";
 import BlogDetails from "./BlogDetails";
 import MobileBlogDetails from "./MobileBlogDetails";
+import { useMediaQuery } from "react-responsive";
 
 export default function ResponsiveBlogContainer({ slug }) {
-  return (
-    <div>
-      <div className="hidden md:block">
-        <BlogDetails slug={slug} />
-      </div>
-      <div className="block md:hidden">
-        <MobileBlogDetails slug={slug} />
-      </div>
-    </div>
+  const isDesktop = useMediaQuery({ minWidth: 768 });
+
+  return isDesktop ? (
+    <BlogDetails slug={slug} />
+  ) : (
+    <MobileBlogDetails slug={slug} />
   );
 }

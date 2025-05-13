@@ -53,13 +53,11 @@ export default function Blog() {
           setFeaturedBlog(response.data.results[0]);
           setBlogs(response.data.results.slice(1));
         } else {
-          console.log("No blogs found or invalid response format");
           setError("No blog posts found. Please check the API response.");
           setBlogs([]);
         }
       } catch (error) {
-        console.error("Error fetching blogs:", error);
-        setError("Failed to fetch blog posts. Please try again later.");
+        setError("No blog posts found. Please check the API response.");
       } finally {
         setLoading(false);
       }
