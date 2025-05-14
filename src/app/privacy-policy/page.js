@@ -1,3 +1,9 @@
+export const metadata = {
+  title: "How We Protect Your Data | UnplugWell",
+  description:
+    "Discover how UnplugWell collects, uses, and protects your data. Read our Privacy Policy to understand your rights and our commitment to your privacy.",
+};
+
 export default function PrivacyPolicy() {
   return (
     <main className="py-12 min-h-screen px-4 sm:px-6 lg:px-12">
@@ -71,7 +77,7 @@ export default function PrivacyPolicy() {
                   </ul>
 
                   <h3 className="font-semibold text-gray-900 mt-4">
-                    Comments :    
+                    Comments :
                   </h3>
                   <ul className="list-disc list-inside text-gray-600 space-y-2">
                     <li>

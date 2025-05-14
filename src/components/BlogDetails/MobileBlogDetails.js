@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import moment from "moment";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import ajaxCall from "@/helpers/ajaxCall";
 import BlogTicker from "../RelatedArticles/BlogTicker";
 import RelatedArticles from "../RelatedArticles/RelatedArticles";
@@ -24,6 +25,7 @@ export default function BlogDetails({ slug }) {
   const [showTicker, setShowTicker] = useState(false);
   const [relatedBlogs, setRelatedBlogs] = useState([]);
   const category = blog?.category?.name;
+  const router = useRouter();
 
   useEffect(() => {
     if (!slug) return;
@@ -33,6 +35,8 @@ export default function BlogDetails({ slug }) {
         setBlog(response.data);
       } catch (error) {
         console.log("error", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -60,11 +64,7 @@ export default function BlogDetails({ slug }) {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 300) {
-        setShowTicker(true);
-      } else {
-        setShowTicker(false);
-      }
+      setShowTicker(window.scrollY > 300);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -72,7 +72,7 @@ export default function BlogDetails({ slug }) {
   }, []);
 
   const handleGoBack = () => {
-    window.history.back();
+    router.back();
   };
 
   useEffect(() => {
@@ -106,17 +106,17 @@ export default function BlogDetails({ slug }) {
                   {blog.category?.name}
                 </span>
                 <div className="flex items-center gap-1 text-gray-500">
-                  <Calendar className="h-4 w-4" />
+                  <Calendar className="h-4 w-4" aria-hidden="true" />
                   <span>{moment(blog?.published_at)?.format("ll")}</span>
                 </div>
                 <div className="flex items-center gap-1 text-gray-500">
-                  <Clock className="h-4 w-4" />
+                  <Clock className="h-4 w-4" aria-hidden="true" />
                   <span>
                     {moment(blog?.published_at)?.startOf("hour")?.fromNow()}
                   </span>
                 </div>
                 <div className="flex items-center gap-1 text-gray-500">
-                  <Eye className="h-4 w-4" />
+                  <Eye className="h-4 w-4" aria-hidden="true" />
                   <span>{blog.view_count} views</span>
                 </div>
               </div>
@@ -126,9 +126,11 @@ export default function BlogDetails({ slug }) {
               <p className="text-xl text-gray-600">{blog.excerpt}</p>
               <div className="flex items-center justify-between pt-4 border-t border-gray-200">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-600 to-pink-600 flex items-center justify-center text-white font-semibold">
-                    {blog.author?.full_name?.charAt(0)}
-                  </div>
+                  {blog.author?.full_name && (
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-600 to-pink-600 flex items-center justify-center text-white font-semibold">
+                      {blog.author.full_name.charAt(0)}
+                    </div>
+                  )}
                   <div>
                     <h3 className="text-gray-900 font-medium">
                       {blog.author?.full_name}
@@ -149,7 +151,7 @@ export default function BlogDetails({ slug }) {
               >
                 <img
                   src={blog.featured_image}
-                  alt={blog.image_alt}
+                  alt={blog.image_alt || blog.title}
                   className="w-full h-auto object-cover transition-transform duration-700 hover:scale-105"
                 />
               </motion.div>
@@ -174,7 +176,7 @@ export default function BlogDetails({ slug }) {
                   onClick={handleGoBack}
                   className="flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors"
                 >
-                  <ArrowLeft className="h-4 w-4" />
+                  <ArrowLeft className="h-4 w-4" aria-hidden="true" />
                   Back to Blogs
                 </button>
               </motion.div>
@@ -185,7 +187,10 @@ export default function BlogDetails({ slug }) {
                 className="bg-gradient-to-br from-indigo-50 to-pink-50 rounded-xl p-6 shadow-md"
               >
                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                  <Sparkles className="h-4 w-4 text-indigo-600 mr-2" />
+                  <Sparkles
+                    className="h-4 w-4 text-indigo-600 mr-2"
+                    aria-hidden="true"
+                  />
                   Share this article
                 </h3>
                 <div className="grid grid-cols-3 gap-3">
@@ -198,7 +203,7 @@ export default function BlogDetails({ slug }) {
                     className="flex flex-col items-center justify-center p-3 rounded-lg bg-[#1877F2]/10 text-[#1877F2] hover:bg-[#1877F2]/20 transition-colors"
                     aria-label="Share on Facebook"
                   >
-                    <Facebook className="h-6 w-6 mb-1" />
+                    <Facebook className="h-6 w-6 mb-1" aria-hidden="true" />
                     <span className="text-xs">Facebook</span>
                   </motion.a>
                   <motion.a
@@ -210,7 +215,7 @@ export default function BlogDetails({ slug }) {
                     className="flex flex-col items-center justify-center p-3 rounded-lg bg-[#1DA1F2]/10 text-[#1DA1F2] hover:bg-[#1DA1F2]/20 transition-colors"
                     aria-label="Share on Twitter"
                   >
-                    <Twitter className="h-6 w-6 mb-1" />
+                    <Twitter className="h-6 w-6 mb-1" aria-hidden="true" />
                     <span className="text-xs">Twitter</span>
                   </motion.a>
                   <motion.a
@@ -222,7 +227,7 @@ export default function BlogDetails({ slug }) {
                     className="flex flex-col items-center justify-center p-3 rounded-lg bg-[#0A66C2]/10 text-[#0A66C2] hover:bg-[#0A66C2]/20 transition-colors"
                     aria-label="Visit us on Instagram"
                   >
-                    <Instagram className="h-6 w-6 mb-1" />
+                    <Instagram className="h-6 w-6 mb-1" aria-hidden="true" />
                     <span className="text-xs">Instagram</span>
                   </motion.a>
                 </div>
@@ -235,7 +240,10 @@ export default function BlogDetails({ slug }) {
                   className="bg-gradient-to-br from-indigo-50 to-pink-50 rounded-xl p-6 shadow-md"
                 >
                   <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                    <Tag className="h-4 w-4 text-indigo-600 mr-2" />
+                    <Tag
+                      className="h-4 w-4 text-indigo-600 mr-2"
+                      aria-hidden="true"
+                    />
                     Tags
                   </h3>
                   <div className="flex flex-wrap gap-2">
@@ -244,7 +252,7 @@ export default function BlogDetails({ slug }) {
                         key={index}
                         className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-white/80 text-indigo-600 text-sm font-medium hover:shadow-md transition-shadow"
                       >
-                        <Tag className="h-3 w-3" />
+                        <Tag className="h-3 w-3" aria-hidden="true" />
                         {tag.name}
                       </span>
                     ))}
@@ -289,7 +297,7 @@ export default function BlogDetails({ slug }) {
             onClick={handleGoBack}
             className="flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors shadow-lg"
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             Back to Blogs
           </motion.button>
         </div>

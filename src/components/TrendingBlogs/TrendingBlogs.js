@@ -57,33 +57,33 @@ const TrendingBlogs = () => {
                 key={index}
                 className="bg-white rounded-2xl overflow-hidden shadow-lg"
               >
-                <div className="relative h-48 bg-purple-100 animate-pulse"></div>
+                <div className="relative h-48 bg-gray-200 animate-pulse"></div>
                 <div className="p-6">
-                  <div className="h-6 bg-purple-100 rounded animate-pulse mb-4"></div>
-                  <div className="h-4 bg-purple-100 rounded animate-pulse mb-2"></div>
-                  <div className="h-4 bg-purple-100 rounded animate-pulse mb-2"></div>
-                  <div className="h-4 bg-purple-100 rounded animate-pulse mb-4 w-2/3"></div>
+                  <div className="h-6 bg-gray-200 rounded animate-pulse mb-4"></div>
+                  <div className="h-4 bg-gray-200 rounded animate-pulse mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded animate-pulse mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded animate-pulse mb-4 w-2/3"></div>
 
                   <div className="flex flex-wrap gap-2 mb-4">
                     {[...Array(3)].map((_, tagIndex) => (
                       <div
                         key={tagIndex}
-                        className="h-6 w-16 bg-purple-100 rounded-md animate-pulse"
+                        className="h-6 w-16 bg-gray-200 rounded-md animate-pulse"
                       ></div>
                     ))}
                   </div>
 
                   <div className="mt-auto">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 rounded-full bg-purple-100 animate-pulse"></div>
+                      <div className="w-10 h-10 rounded-full bg-gray-200 animate-pulse"></div>
                       <div className="flex-1">
-                        <div className="h-4 bg-purple-100 rounded animate-pulse mb-2"></div>
-                        <div className="h-3 bg-purple-100 rounded animate-pulse w-1/2"></div>
+                        <div className="h-4 bg-gray-200 rounded animate-pulse mb-2"></div>
+                        <div className="h-3 bg-gray-200 rounded animate-pulse w-1/2"></div>
                       </div>
                     </div>
                     <div className="flex justify-between">
-                      <div className="h-4 w-28 bg-purple-100 rounded animate-pulse"></div>
-                      <div className="h-4 w-20 bg-purple-100 rounded animate-pulse"></div>
+                      <div className="h-4 w-28 bg-gray-200 rounded animate-pulse"></div>
+                      <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
                     </div>
                   </div>
                 </div>

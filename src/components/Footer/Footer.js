@@ -5,16 +5,16 @@ import { Facebook, Twitter, Instagram, ArrowUpCircle } from "lucide-react";
 
 const footerLinks = {
   company: [
-    { name: "About Us", href: "/aboutUs" },
-    { name: "Contact Us", href: "/contactUs" },
+    { name: "About Us", href: "/about-us" },
+    { name: "Contact Us", href: "/contact-us" },
   ],
   resources: [
     { name: "Blogs", href: "/blogs" },
     { name: "Categories", href: "/categories" },
   ],
   legal: [
-    { name: "Privacy Policy", href: "/privacyPolicy" },
-    { name: "Terms & Conditions", href: "/terms&condition" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
+    { name: "Terms & Conditions", href: "/terms-and-conditions" },
     { name: "Cookie Policy", href: "/cookies" },
     { name: "Disclaimer", href: "/disclaimer" },
   ],

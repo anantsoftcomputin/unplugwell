@@ -11,10 +11,14 @@ export default function RelatedArticles({ relatedBlogs }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.7 }}
       className="container mx-auto px-6 py-12"
+      aria-labelledby="related-articles-heading"
     >
       <div className="flex items-center mb-6">
-        <Sparkles className="h-6 w-6 text-indigo-600 mr-3" />
-        <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">
+        <Sparkles className="h-6 w-6 text-indigo-600 mr-3" aria-hidden="true" />
+        <h2
+          id="related-articles-heading"
+          className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent"
+        >
           Related Articles
         </h2>
       </div>
@@ -25,7 +29,11 @@ export default function RelatedArticles({ relatedBlogs }) {
             whileHover={{ y: -5 }}
             className="rounded-lg overflow-hidden shadow-lg bg-white hover:shadow-xl transition-shadow duration-300"
           >
-            <Link href={`/${relatedBlog.slug}`} className="block h-full">
+            <Link
+              href={`/${relatedBlog.slug}`}
+              className="block h-full"
+              aria-label={`Read related article: ${relatedBlog.title}`}
+            >
               {relatedBlog.featured_image && (
                 <div className="h-40 sm:h-48 md:h-40 overflow-hidden relative">
                   <img
@@ -35,7 +43,7 @@ export default function RelatedArticles({ relatedBlogs }) {
                   />
                   <div className="absolute top-4 left-4">
                     <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/90 text-purple-600 text-sm font-medium">
-                      <Tag className="h-3 w-3" />
+                      <Tag className="h-3 w-3" aria-hidden="true" />
                       {relatedBlog.category.name}
                     </span>
                   </div>

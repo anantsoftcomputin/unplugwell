@@ -1,3 +1,9 @@
+export const metadata = {
+  title: "Important Disclaimer Notice | UnplugWell",
+  description:
+    "Read UnplugWell's Disclaimer to understand the limitations of our content, liability, and how users should interpret information on this site.",
+};
+
 export default function Disclaimer() {
   return (
     <main className="py-12 min-h-screen px-4 sm:px-6 lg:px-12">
@@ -129,9 +135,7 @@ export default function Disclaimer() {
               </div>
               <div className="p-6">
                 <div className="space-y-4">
-                  <h3 className="font-semibold text-gray-900">
-                    As-Is Basis :
-                  </h3>
+                  <h3 className="font-semibold text-gray-900">As-Is Basis :</h3>
                   <ul className="list-disc list-inside text-gray-600 space-y-2">
                     <li>
                       This Site and its content are provided on an "as-is" and
@@ -206,9 +210,7 @@ export default function Disclaimer() {
                       Disclaimer on this page.
                     </li>
                   </ul>
-                  <h3 className="font-semibold text-gray-900 mt-4">
-                    Review :
-                  </h3>
+                  <h3 className="font-semibold text-gray-900 mt-4">Review :</h3>
                   <ul className="list-disc list-inside text-gray-600 space-y-2">
                     <li>
                       You are advised to review this Disclaimer periodically for
@@ -228,7 +230,8 @@ export default function Disclaimer() {
               </div>
               <div className="p-6">
                 <p className="text-gray-600">
-                This Disclaimer shall be governed by and construed in accordance with the laws of Vadodara, Gujarat, India.
+                  This Disclaimer shall be governed by and construed in
+                  accordance with the laws of Vadodara, Gujarat, India.
                 </p>
               </div>
             </div>

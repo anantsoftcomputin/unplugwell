@@ -10,8 +10,8 @@ module.exports = {
     const priorityMap = {
       "/": 1.0,
       "/blogs": 0.9,
-      "/aboutUs": 0.8,
-      "/contactUs": 0.8,
+      "/about-us": 0.8,
+      "/contact-us": 0.8,
       "/categories": 0.8,
     };
 

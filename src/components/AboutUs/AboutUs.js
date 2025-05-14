@@ -252,9 +252,12 @@ const AboutUs = () => {
             Together, we can unplug and thrive. Start your digital detox journey
             today and rediscover the beauty of living in the present moment.
           </p>
-          <button className="bg-white text-purple-900 px-8 py-3 rounded-lg font-semibold hover:bg-purple-50 transition-colors duration-300">
+          <Link
+            href="/contact-us"
+            className="bg-white text-purple-900 px-8 py-3 rounded-lg font-semibold hover:bg-purple-50 transition-colors duration-300"
+          >
             Get Started
-          </button>
+          </Link>
         </div>
       </section>
     </main>

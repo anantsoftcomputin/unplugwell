@@ -3,15 +3,11 @@ import moment from "moment";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import ajaxCall from "@/helpers/ajaxCall";
-import { Calendar, Clock, Tag, ChevronDown } from "lucide-react";
+import { Calendar, Clock, Tag } from "lucide-react";
 
 const LatestBlogs = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [categories, setCategories] = useState(["All"]);
-  const [filteredBlogs, setFilteredBlogs] = useState([]);
-  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -31,37 +27,6 @@ const LatestBlogs = () => {
     fetchBlogs();
   }, []);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await ajaxCall(
-          "/get-categories/?site=unplugwell.com",
-          { method: "GET" }
-        );
-        setCategories((prev) => [
-          "All",
-          ...response.data.results.map((category) => category.name),
-        ]);
-      } catch (error) {
-        console.log("error", error);
-      }
-    };
-
-    fetchCategories();
-  }, []);
-
-  useEffect(() => {
-    let filtered = blogs;
-
-    if (selectedCategory !== "All") {
-      filtered = filtered.filter(
-        (blog) => blog.category.name === selectedCategory
-      );
-    }
-
-    setFilteredBlogs(filtered);
-  }, [selectedCategory, blogs]);
-
   return (
     <section className="py-20 bg-gradient-to-r from-indigo-50 to-pink-50">
       <div className="container mx-auto px-6">
@@ -74,60 +39,6 @@ const LatestBlogs = () => {
             technology use
           </p>
         </div>
-        <div className="md:hidden w-full py-4">
-          <button
-            onClick={() => setIsCategoryOpen(!isCategoryOpen)}
-            className="w-full flex justify-between items-center px-4 py-2 bg-gray-100 rounded-lg"
-          >
-            <span>Categories</span>
-            <ChevronDown
-              className={`h-5 w-5 transition-transform ${
-                isCategoryOpen ? "rotate-180" : ""
-              }`}
-            />
-          </button>
-          {isCategoryOpen && (
-            <div className="mt-2 space-y-2">
-              {categories.map((category, index) => (
-                <button
-                  key={index}
-                  onClick={() => {
-                    setSelectedCategory(category);
-                    setIsCategoryOpen(false);
-                  }}
-                  className={`w-full px-4 py-2 text-left rounded-full text-sm font-semibold transition-all duration-300 ${
-                    selectedCategory === category
-                      ? "bg-purple-600 text-white shadow-lg shadow-purple-500/25 scale-105"
-                      : "bg-purple-100 text-purple-600 hover:bg-purple-200"
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-        {categories.length > 1 ? (
-          <div className="hidden md:flex flex-wrap justify-center gap-4 mb-12">
-            {categories.map((category, index) => (
-              <button
-                key={category + index}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
-                  selectedCategory === category
-                    ? "bg-purple-600 text-white shadow-lg shadow-purple-500/25 scale-105"
-                    : "bg-purple-100 text-purple-600 hover:bg-purple-200"
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center text-gray-600 mb-12">
-            No Categories Available.
-          </div>
-        )}
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {[...Array(4)].map((_, index) => (
@@ -135,31 +46,31 @@ const LatestBlogs = () => {
                 key={index}
                 className="overflow-hidden rounded-2xl shadow-lg h-full flex flex-col"
               >
-                <div className="relative h-64 bg-purple-100 animate-pulse"></div>
+                <div className="relative h-64 bg-gray-200 animate-pulse"></div>
                 <div className="p-6 bg-white flex flex-col flex-grow">
-                  <div className="h-6 bg-purple-100 rounded animate-pulse mb-4"></div>
-                  <div className="h-4 bg-purple-100 rounded animate-pulse mb-2"></div>
-                  <div className="h-4 bg-purple-100 rounded animate-pulse mb-2"></div>
-                  <div className="h-4 bg-purple-100 rounded animate-pulse mb-4 w-2/3"></div>
+                  <div className="h-6 bg-gray-200 rounded animate-pulse mb-4"></div>
+                  <div className="h-4 bg-gray-200 rounded animate-pulse mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded animate-pulse mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded animate-pulse mb-4 w-2/3"></div>
 
                   <div className="flex items-center gap-3 mb-4 mt-auto">
-                    <div className="w-10 h-10 rounded-full bg-purple-100 animate-pulse"></div>
+                    <div className="w-10 h-10 rounded-full bg-gray-200 animate-pulse"></div>
                     <div className="flex-1">
-                      <div className="h-4 bg-purple-100 rounded animate-pulse mb-2"></div>
-                      <div className="h-3 bg-purple-100 rounded animate-pulse w-1/2"></div>
+                      <div className="h-4 bg-gray-200 rounded animate-pulse mb-2"></div>
+                      <div className="h-3 bg-gray-200 rounded animate-pulse w-1/2"></div>
                     </div>
                   </div>
                   <div className="flex justify-between">
-                    <div className="h-4 w-24 bg-purple-100 rounded animate-pulse"></div>
-                    <div className="h-4 w-24 bg-purple-100 rounded animate-pulse"></div>
+                    <div className="h-4 w-24 bg-gray-200 rounded animate-pulse"></div>
+                    <div className="h-4 w-24 bg-gray-200 rounded animate-pulse"></div>
                   </div>
                 </div>
               </article>
             ))}
           </div>
-        ) : filteredBlogs.length > 0 ? (
+        ) : blogs.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {filteredBlogs.map((blog, index) => (
+            {blogs.map((blog, index) => (
               <Link key={index} href={`/${blog.slug}`}>
                 <article className="group relative overflow-hidden rounded-2xl shadow-lg transition-all duration-500 h-full flex flex-col">
                   <div className="relative h-64 overflow-hidden">
