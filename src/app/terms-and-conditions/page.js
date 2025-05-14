@@ -1,3 +1,9 @@
+export const metadata = {
+  title: "UnplugWell – Terms You Should Know",
+  description:
+    "Review UnplugWell’s Terms &amp; Conditions to understand the rules, user responsibilities, and legal guidelines for using our website and services.",
+};
+
 export default function TermsAndConditions() {
   return (
     <main className="py-12 min-h-screen px-4 sm:px-6 lg:px-12">
@@ -6,7 +12,7 @@ export default function TermsAndConditions() {
         <div className="relative max-w-7xl mx-auto">
           <div className="text-center mb-8">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">
-              Terms and Conditions
+              Terms & Conditions
             </h1>
           </div>
 
@@ -171,9 +177,7 @@ export default function TermsAndConditions() {
               </div>
               <div className="p-6">
                 <div className="space-y-4">
-                  <h3 className="font-semibold text-gray-900">
-                    Limitation :
-                  </h3>
+                  <h3 className="font-semibold text-gray-900">Limitation :</h3>
                   <ul className="list-disc list-inside text-gray-600 space-y-2">
                     <li>
                       To the fullest extent permitted by law, UnplugWell.com and
@@ -216,9 +220,7 @@ export default function TermsAndConditions() {
                       the new terms on this page.
                     </li>
                   </ul>
-                  <h3 className="font-semibold text-gray-900 mt-4">
-                    Review :
-                  </h3>
+                  <h3 className="font-semibold text-gray-900 mt-4">Review :</h3>
                   <ul className="list-disc list-inside text-gray-600 space-y-2">
                     <li>
                       You are advised to review these Terms and Conditions
@@ -239,9 +241,7 @@ export default function TermsAndConditions() {
               </div>
               <div className="p-6">
                 <div className="space-y-4">
-                  <h3 className="font-semibold text-gray-900">
-                    Termination :
-                  </h3>
+                  <h3 className="font-semibold text-gray-900">Termination :</h3>
                   <ul className="list-disc list-inside text-gray-600 space-y-2">
                     <li>
                       We may terminate your access to our Site at any time,

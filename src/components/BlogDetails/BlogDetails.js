@@ -416,11 +416,19 @@ export default function BlogDetails({ slug }) {
         <div
           className="h-full bg-gradient-to-r from-indigo-600 to-pink-600"
           style={{ width: `${readingProgress}%` }}
+          role="progressbar"
+          aria-valuenow={Math.round(readingProgress)}
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-label="Reading progress"
         />
       </div>
       <button
         onClick={() => setIsAudioPlayerOpen(!isAudioPlayerOpen)}
         className="fixed bottom-20 right-6 z-50 p-3 rounded-full bg-gradient-to-r from-indigo-600 to-pink-600 hover:from-indigo-700 hover:to-pink-700 text-white shadow-lg transition-colors"
+        aria-label={
+          isAudioPlayerOpen ? "Close audio player" : "Open audio player"
+        }
       >
         <Headphones className="h-5 w-5" />
       </button>
@@ -433,13 +441,14 @@ export default function BlogDetails({ slug }) {
           className="fixed bottom-32 right-6 w-80 z-50 rounded-lg bg-gradient-to-br from-indigo-50 to-pink-50 p-6 shadow-md"
         >
           <div className="flex justify-between items-center mb-3">
-            <h3 className="text-lg text-gray-900 font-medium flex items-center">
+            <h2 className="text-lg text-gray-900 font-medium flex items-center">
               <Headphones className="w-4 h-4 bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent mr-2" />
               Listen to Article
-            </h3>
+            </h2>
             <button
               onClick={() => setIsAudioPlayerOpen(false)}
               className="text-gray-600 hover:text-gray-900"
+              aria-label="Close audio player"
             >
               <XCircle className="w-5 h-5" />
             </button>
@@ -451,10 +460,12 @@ export default function BlogDetails({ slug }) {
             <button
               onClick={handlePrevious}
               disabled={currentSectionIndex <= 0 || !speechSections.length}
-              className={`p-2 rounded-full ${currentSectionIndex <= 0 || !speechSections.length
+              className={`p-2 rounded-full ${
+                currentSectionIndex <= 0 || !speechSections.length
                   ? "text-gray-400 bg-gray-100"
                   : "text-gray-900 bg-gradient-to-r from-indigo-50 to-pink-50 hover:from-indigo-100 hover:to-pink-100 transition-colors"
-                }`}
+              }`}
+              aria-label="Previous section"
             >
               <SkipBack className="w-4 h-4" />
             </button>
@@ -462,6 +473,7 @@ export default function BlogDetails({ slug }) {
               onClick={handlePlay}
               disabled={!speechSections.length}
               className="p-3 rounded-full bg-gradient-to-r from-indigo-600 to-pink-600 text-white hover:from-indigo-700 hover:to-pink-700 transition-colors"
+              aria-label={isPlaying ? "Pause audio" : "Play audio"}
             >
               {isPlaying ? (
                 <Pause className="w-5 h-5" />
@@ -472,10 +484,12 @@ export default function BlogDetails({ slug }) {
             <button
               onClick={handleStop}
               disabled={!isPlaying}
-              className={`p-2 rounded-full ${!isPlaying
+              className={`p-2 rounded-full ${
+                !isPlaying
                   ? "text-gray-400 bg-gray-100"
                   : "text-gray-900 bg-gradient-to-r from-indigo-50 to-pink-50 hover:from-indigo-100 hover:to-pink-100 transition-colors"
-                }`}
+              }`}
+              aria-label="Stop audio"
             >
               <Square className="w-4 h-4" />
             </button>
@@ -485,11 +499,13 @@ export default function BlogDetails({ slug }) {
                 currentSectionIndex >= speechSections.length - 1 ||
                 !speechSections.length
               }
-              className={`p-2 rounded-full ${currentSectionIndex >= speechSections.length - 1 ||
-                  !speechSections.length
+              className={`p-2 rounded-full ${
+                currentSectionIndex >= speechSections.length - 1 ||
+                !speechSections.length
                   ? "text-gray-400 bg-gray-100"
                   : "text-gray-900 bg-gradient-to-r from-indigo-50 to-pink-50 hover:from-indigo-100 hover:to-pink-100 transition-colors"
-                }`}
+              }`}
+              aria-label="Next section"
             >
               <SkipForward className="w-4 h-4" />
             </button>
@@ -501,8 +517,14 @@ export default function BlogDetails({ slug }) {
             </span>
           </div>
           <div className="mb-3">
-            <label className="block text-sm text-gray-600 mb-1">Voice</label>
+            <label
+              htmlFor="voice-select"
+              className="block text-sm text-gray-600 mb-1"
+            >
+              Voice
+            </label>
             <select
+              id="voice-select"
               value={selectedVoice}
               onChange={handleVoiceChange}
               className="w-full p-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -516,12 +538,13 @@ export default function BlogDetails({ slug }) {
           </div>
           <div className="mb-3">
             <div className="flex items-center justify-between text-sm text-gray-600 mb-1">
-              <label className="flex items-center">
+              <label htmlFor="speed-range" className="flex items-center">
                 <Settings className="w-3 h-3 mr-1" /> Speed
               </label>
               <span>{speechRate}x</span>
             </div>
             <input
+              id="speed-range"
               type="range"
               min="0.5"
               max="2"
@@ -533,12 +556,13 @@ export default function BlogDetails({ slug }) {
           </div>
           <div>
             <div className="flex items-center justify-between text-sm text-gray-600 mb-1">
-              <label className="flex items-center">
+              <label htmlFor="volume-range" className="flex items-center">
                 <Volume2 className="w-3 h-3 mr-1" /> Volume
               </label>
               <span>{Math.round(speechVolume * 100)}%</span>
             </div>
             <input
+              id="volume-range"
               type="range"
               min="0"
               max="1"
@@ -551,7 +575,7 @@ export default function BlogDetails({ slug }) {
         </motion.div>
       )}
       <div className="flex-grow flex overflow-hidden">
-        <div className="w-64 lg:w-80 p-6 border-r border-gray-200 flex-shrink-0 overflow-y-auto bg-white">
+        <aside className="w-64 lg:w-80 p-6 border-r border-gray-200 flex-shrink-0 overflow-y-auto bg-white">
           {tableOfContents.length > 0 && (
             <motion.div
               initial={{ opacity: 0, x: 20 }}
@@ -559,17 +583,23 @@ export default function BlogDetails({ slug }) {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="bg-gradient-to-br from-indigo-50 to-pink-50 rounded-xl p-6 mb-6 shadow-md"
             >
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+              <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                 <Sparkles className="h-4 w-4 text-indigo-600 mr-2" />
                 Table of Contents
-              </h3>
-              <div className="max-h-[calc(100vh-24rem)] overflow-y-auto pr-2">
+              </h2>
+              <nav
+                className="max-h-[calc(100vh-24rem)] overflow-y-auto pr-2"
+                aria-label="Table of contents"
+              >
                 <ul className="space-y-1">
                   {tableOfContents.map((heading) => (
                     <li key={heading.id}>
                       <button
                         onClick={() => scrollToHeading(heading.id)}
-                        className="flex items-center w-full px-2 py-1.5 text-sm text-gray-600 hover:text-purple-600 hover:bg-purple-50/20 rounded transition-colors"
+                        className={`flex items-center w-full px-2 py-1.5 text-sm text-gray-600 hover:text-purple-600 hover:bg-purple-50/20 rounded transition-colors ${
+                          heading.level === 3 ? "pl-4" : ""
+                        }`}
+                        aria-label={`Scroll to section: ${heading.title}`}
                       >
                         <ArrowRight className="h-3 w-3 text-indigo-600 mr-2 flex-shrink-0" />
                         <span className="truncate">{heading.title}</span>
@@ -577,15 +607,16 @@ export default function BlogDetails({ slug }) {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </nav>
               <div className="mt-6 pt-4 border-t border-gray-200">
-                <h4 className="text-base font-medium text-gray-900 mb-3 flex items-center">
+                <h3 className="text-base font-medium text-gray-900 mb-3 flex items-center">
                   <Headphones className="h-4 w-4 bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent mr-2" />
                   Listen to Article
-                </h4>
+                </h3>
                 <button
                   onClick={handlePlay}
                   className="w-full flex items-center justify-center gap-2 py-2 text-sm rounded-lg bg-gradient-to-r from-indigo-600 to-pink-600 text-white hover:from-indigo-700 hover:to-pink-700 transition-colors mb-4"
+                  aria-label={isPlaying ? "Pause audio" : "Play audio"}
                 >
                   {isPlaying ? (
                     <Pause className="h-4 w-4" />
@@ -609,10 +640,12 @@ export default function BlogDetails({ slug }) {
               </div>
             </motion.div>
           )}
-        </div>
-        <div
+        </aside>
+        <article
           ref={bodyRef}
           className="flex-grow h-full overflow-y-auto pb-12 bg-white"
+          itemScope
+          itemType="https://schema.org/BlogPosting"
         >
           <div className="max-w-6xl mx-auto px-6 py-6">
             <div ref={contentRef}>
@@ -623,28 +656,43 @@ export default function BlogDetails({ slug }) {
                 className="space-y-4"
               >
                 <div className="flex flex-wrap items-center gap-3 text-sm">
-                  <span className="px-3 py-1 rounded-full bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-medium">
+                  <span
+                    className="px-3 py-1 rounded-full bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-medium"
+                    itemProp="articleSection"
+                  >
                     {blog.category?.name}
                   </span>
                   <div className="flex items-center gap-1 text-gray-600">
-                    <Calendar className="h-4 w-4" />
-                    <span>{moment(blog?.published_at)?.format("ll")}</span>
+                    <Calendar className="h-4 w-4" aria-hidden="true" />
+                    <time
+                      dateTime={blog?.published_at}
+                      itemProp="datePublished"
+                    >
+                      {moment(blog?.published_at)?.format("ll")}
+                    </time>
                   </div>
                   <div className="flex items-center gap-1 text-gray-600">
-                    <Clock className="h-4 w-4" />
+                    <Clock className="h-4 w-4" aria-hidden="true" />
                     <span>
                       {moment(blog?.published_at)?.startOf("hour")?.fromNow()}
                     </span>
                   </div>
                   <div className="flex items-center gap-1 text-gray-600">
-                    <Eye className="h-4 w-4" />
-                    <span>{blog.view_count} views</span>
+                    <Eye className="h-4 w-4" aria-hidden="true" />
+                    <span itemProp="interactionCount">
+                      {blog.view_count} views
+                    </span>
                   </div>
                 </div>
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">
+                <h1
+                  className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent"
+                  itemProp="headline"
+                >
                   {blog.title}
                 </h1>
-                <p className="text-xl text-gray-600">{blog.excerpt}</p>
+                <p className="text-xl text-gray-600" itemProp="description">
+                  {blog.excerpt}
+                </p>
                 <div className="flex items-center justify-between border-t border-gray-200"></div>
               </motion.div>
 
@@ -657,33 +705,38 @@ export default function BlogDetails({ slug }) {
                 >
                   <img
                     src={blog.featured_image}
-                    alt={blog.image_alt}
+                    alt={blog.image_alt || blog.title}
                     className="w-full h-auto object-cover transition-transform duration-700 hover:scale-105"
+                    loading="eager"
+                    width="1200"
+                    height="630"
+                    itemProp="image"
                   />
                 </motion.div>
               )}
-              <motion.article
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
                 dangerouslySetInnerHTML={{ __html: blog.content }}
                 className="p-6 prose max-w-none bg-gradient-to-br from-indigo-50 to-pink-50 rounded-xl shadow-md"
+                itemProp="articleBody"
               />
             </div>
             <RelatedArticles relatedBlogs={relatedBlogs} />
           </div>
-        </div>
-        <div className="w-64 lg:w-80 p-6 border-l border-gray-200 flex-shrink-0 overflow-y-auto bg-white">
+        </article>
+        <aside className="w-64 lg:w-80 p-6 border-l border-gray-200 flex-shrink-0 overflow-y-auto bg-white">
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
             className="bg-gradient-to-br from-indigo-50 to-pink-50 rounded-xl p-6 mb-6 shadow-md"
           >
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+            <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
               <Sparkles className="h-4 w-4 text-indigo-600 mr-2" />
               Share this article
-            </h3>
+            </h2>
             <div className="grid grid-cols-3 gap-3">
               <motion.a
                 whileHover={{ scale: 1.05 }}
@@ -694,7 +747,7 @@ export default function BlogDetails({ slug }) {
                 className="flex flex-col items-center justify-center p-3 rounded-lg bg-[#1877F2]/10 text-[#1877F2] hover:bg-[#1877F2]/20 transition-colors"
                 aria-label="Share on Facebook"
               >
-                <Facebook className="h-6 w-6 mb-1" />
+                <Facebook className="h-6 w-6 mb-1" aria-hidden="true" />
                 <span className="text-xs">Facebook</span>
               </motion.a>
               <motion.a
@@ -706,7 +759,7 @@ export default function BlogDetails({ slug }) {
                 className="flex flex-col items-center justify-center p-3 rounded-lg bg-[#1DA1F2]/10 text-[#1DA1F2] hover:bg-[#1DA1F2]/20 transition-colors"
                 aria-label="Share on Twitter"
               >
-                <Twitter className="h-6 w-6 mb-1" />
+                <Twitter className="h-6 w-6 mb-1" aria-hidden="true" />
                 <span className="text-xs">Twitter</span>
               </motion.a>
               <motion.a
@@ -718,7 +771,7 @@ export default function BlogDetails({ slug }) {
                 className="flex flex-col items-center justify-center p-3 rounded-lg bg-[#0A66C2]/10 text-[#0A66C2] hover:bg-[#0A66C2]/20 transition-colors"
                 aria-label="Visit us on Instagram"
               >
-                <Instagram className="h-6 w-6 mb-1" />
+                <Instagram className="h-6 w-6 mb-1" aria-hidden="true" />
                 <span className="text-xs">Instagram</span>
               </motion.a>
             </div>
@@ -730,17 +783,21 @@ export default function BlogDetails({ slug }) {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="bg-gradient-to-br from-indigo-50 to-pink-50 rounded-xl p-6 shadow-md mb-6"
             >
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <Tag className="h-4 w-4 text-indigo-600 mr-2" />
+              <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <Tag
+                  className="h-4 w-4 text-indigo-600 mr-2"
+                  aria-hidden="true"
+                />
                 Tags
-              </h3>
+              </h2>
               <div className="flex flex-wrap gap-2">
                 {blog.tags.map((tag, index) => (
                   <span
                     key={index}
                     className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-white/80 text-indigo-600 text-sm font-medium hover:shadow-md transition-shadow"
+                    itemProp="keywords"
                   >
-                    <Tag className="h-3 w-3" />
+                    <Tag className="h-3 w-3" aria-hidden="true" />
                     {tag.name}
                   </span>
                 ))}
@@ -753,18 +810,23 @@ export default function BlogDetails({ slug }) {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.5 }}
               className="bg-gradient-to-br from-indigo-50 to-pink-50 rounded-xl p-6 shadow-md"
+              itemScope
+              itemType="https://schema.org/Person"
             >
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">
                 About the Author
-              </h3>
+              </h2>
               <div className="flex flex-col items-center text-center">
                 <div className="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-600 to-pink-600 flex items-center justify-center text-white text-2xl font-semibold mb-3">
                   {blog.author.full_name.charAt(0)}
                 </div>
-                <h4 className="text-xl font-semibold text-gray-900">
+                <h3
+                  className="text-xl font-semibold text-gray-900"
+                  itemProp="name"
+                >
                   {blog.author.full_name}
-                </h4>
-                <p className="text-gray-600 mt-2">
+                </h3>
+                <p className="text-gray-600 mt-2" itemProp="description">
                   Content creator and specialist in well-being topics.
                   Passionate about helping people unplug and find balance in
                   their lives.
@@ -772,7 +834,7 @@ export default function BlogDetails({ slug }) {
               </div>
             </motion.div>
           )}
-        </div>
+        </aside>
       </div>
     </main>
   );

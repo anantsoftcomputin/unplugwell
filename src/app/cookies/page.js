@@ -1,3 +1,9 @@
+export const metadata = {
+  title: "How UnplugWell Uses Cookies on This Site",
+  description:
+    "Learn how UnplugWell uses cookies to enhance your browsing experience, analyze site traffic, and personalize content on this website.",
+};
+
 export default function CookiesPolicy() {
   return (
     <main className="py-12 min-h-screen px-4 sm:px-6 lg:px-12">
