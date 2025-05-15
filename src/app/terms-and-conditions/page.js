@@ -1,25 +1,74 @@
 export const metadata = {
-  title: "UnplugWell – Terms You Should Know",
+  title: "UnplugWell – Terms & Conditions You Should Know",
   description:
-    "Review UnplugWell’s Terms &amp; Conditions to understand the rules, user responsibilities, and legal guidelines for using our website and services.",
+    "Review UnplugWell’s Terms & Conditions to understand the rules, user responsibilities, and legal guidelines for using our website and services.",
+  openGraph: {
+    title: "UnplugWell – Terms & Conditions You Should Know",
+    description:
+      "Review UnplugWell’s Terms & Conditions to understand the rules, user responsibilities, and legal guidelines for using our website and services.",
+    images: [
+      {
+        url: "https://unplugwell.com/unplugwell.png",
+        width: 800,
+        height: 600,
+        alt: "UnplugWell Logo",
+      },
+    ],
+    siteName: "UnplugWell",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "UnplugWell – Terms & Conditions You Should Know",
+    description:
+      "Review UnplugWell’s Terms & Conditions to understand the rules, user responsibilities, and legal guidelines for using our website and services.",
+    images: [
+      {
+        url: "https://unplugwell.com/unplugwell.png",
+        width: 800,
+        height: 600,
+        alt: "UnplugWell Logo",
+      },
+    ],
+  },
 };
 
 export default function TermsAndConditions() {
   return (
     <main className="py-12 min-h-screen px-4 sm:px-6 lg:px-12">
-      <section className="relative py-16 sm:py-20">
-        <div className="absolute inset-0 bg-grid-white/[0.05]" />
+      <section
+        className="relative py-16 sm:py-20"
+        aria-labelledby="terms-main-heading"
+      >
+        <div
+          className="absolute inset-0 bg-grid-white/[0.05]"
+          aria-hidden="true"
+        />
         <div className="relative max-w-7xl mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">
+            <h1
+              id="terms-main-heading"
+              className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent"
+            >
               Terms & Conditions
             </h1>
+            <p className="text-sm text-gray-500 mt-2">
+              Last Updated: May 15, 2025{" "}
+            </p>
           </div>
 
-          <div className="space-y-6">
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+          <div className="space-y-6" role="list">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="terms-acceptance-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="terms-acceptance-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   1. Acceptance of Terms
                 </h2>
               </div>
@@ -32,17 +81,23 @@ export default function TermsAndConditions() {
                 </p>
               </div>
             </div>
-
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="terms-content-ownership-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
-                  2. Information We Collect
+                <h2
+                  id="terms-content-ownership-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
+                  2. Content Ownership and Use{" "}
                 </h2>
               </div>
               <div className="p-6">
                 <div className="space-y-4">
                   <h3 className="font-semibold text-gray-900">
-                    Content Ownership and Use :
+                    Content Ownership and Use :{" "}
                   </h3>
                   <ul className="list-disc list-inside text-gray-600 space-y-2">
                     <li>
@@ -80,10 +135,16 @@ export default function TermsAndConditions() {
                 </div>
               </div>
             </div>
-
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="terms-user-conduct-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="terms-user-conduct-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   3. User Conduct
                 </h2>
               </div>
@@ -125,10 +186,16 @@ export default function TermsAndConditions() {
                 </div>
               </div>
             </div>
-
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="terms-disclaimers-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="terms-disclaimers-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   4. Disclaimers
                 </h2>
               </div>
@@ -168,10 +235,16 @@ export default function TermsAndConditions() {
                 </div>
               </div>
             </div>
-
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="terms-liability-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="terms-liability-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   5. Limitation of Liability
                 </h2>
               </div>
@@ -201,10 +274,16 @@ export default function TermsAndConditions() {
                 </div>
               </div>
             </div>
-
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="terms-changes-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="terms-changes-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   6. Changes to Terms and Conditions
                 </h2>
               </div>
@@ -232,10 +311,16 @@ export default function TermsAndConditions() {
                 </div>
               </div>
             </div>
-
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="terms-termination-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="terms-termination-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   7. Termination
                 </h2>
               </div>
@@ -263,10 +348,16 @@ export default function TermsAndConditions() {
                 </div>
               </div>
             </div>
-
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="terms-governing-law-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="terms-governing-law-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   8. Governing Law
                 </h2>
               </div>
@@ -296,10 +387,16 @@ export default function TermsAndConditions() {
                 </div>
               </div>
             </div>
-
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="terms-contact-us-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="terms-contact-us-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   9. Contact Us
                 </h2>
               </div>
@@ -308,19 +405,35 @@ export default function TermsAndConditions() {
                   If you have any questions or concerns about these Terms and
                   Conditions, please contact us at:
                 </p>
-                <p className="mt-2 text-purple-600">
-                  Email: support@unplugwell.com
+                <div className="mt-2">
+                  Email:{" "}
+                  <a
+                    href="mailto:support@unplugwell.com"
+                    className="text-purple-600 hover:text-purple-700 hover:underline"
+                  >
+                    support@unplugwell.com
+                  </a>
                   <br />
-                  Address: Alkapuri, Vadodara, Gujarat, India 390007.
+                  <address className="not-italic mt-1 text-gray-700">
+                    Address: Alkapuri, Vadodara, Gujarat, India 390007.
+                  </address>
                   <br />
-                  Contact: Available on UnplugWell.com
-                </p>
+                  <span className="text-gray-700">
+                    Contact: Available on UnplugWell.com
+                  </span>
+                </div>
               </div>
             </div>
-
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="terms-entire-agreement-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="terms-entire-agreement-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   10. Entire Agreement
                 </h2>
               </div>

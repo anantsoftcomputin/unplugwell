@@ -18,7 +18,7 @@ const LatestBlogs = () => {
         );
         setBlogs(response.data.results);
       } catch (error) {
-        console.log("error", error);
+        console.error("Error fetching latest blogs:", error);
       } finally {
         setLoading(false);
       }
@@ -36,14 +36,15 @@ const LatestBlogs = () => {
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Discover our newest articles on digital wellness and mindful
-            technology use
+            technology use. Stay up-to-date with the latest trends and
+            perspectives.
           </p>
         </div>
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {[...Array(4)].map((_, index) => (
               <article
-                key={index}
+                key={`loading-${index}`}
                 className="overflow-hidden rounded-2xl shadow-lg h-full flex flex-col"
               >
                 <div className="relative h-64 bg-gray-200 animate-pulse"></div>
@@ -71,18 +72,24 @@ const LatestBlogs = () => {
         ) : blogs.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {blogs.map((blog, index) => (
-              <Link key={index} href={`/${blog.slug}`}>
-                <article className="group relative overflow-hidden rounded-2xl shadow-lg transition-all duration-500 h-full flex flex-col">
+              <article
+                key={index}
+                className="group relative overflow-hidden rounded-2xl shadow-lg transition-all duration-500 h-full flex flex-col"
+              >
+                <Link
+                  href={`/${blog.slug}`}
+                  aria-label={`Read more about ${blog.title}`}
+                >
                   <div className="relative h-64 overflow-hidden">
                     <img
                       src={blog.featured_image}
-                      alt={blog.image_alt}
+                      alt={blog.image_alt || blog.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     <div className="absolute top-4 left-4">
                       <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/90 text-purple-600 text-sm font-medium">
-                        <Tag className="h-3 w-3" />
+                        <Tag className="h-3 w-3" aria-hidden="true" />
                         {blog.category.name}
                       </span>
                     </div>
@@ -109,22 +116,22 @@ const LatestBlogs = () => {
                     </div>
                     <div className="flex flex-wrap gap-3 items-center justify-between text-xs sm:text-sm text-gray-500">
                       <span className="flex items-center gap-1">
-                        <Calendar className="h-4 w-4" />
+                        <Calendar className="h-4 w-4" aria-hidden="true" />
                         {moment(blog.published_at).format("ll")}
                       </span>
                       <span className="flex items-center gap-1">
-                        <Clock className="h-4 w-4" />
+                        <Clock className="h-4 w-4" aria-hidden="true" />
                         {moment(blog.published_at).startOf("hour").fromNow()}
                       </span>
                     </div>
                   </div>
-                </article>
-              </Link>
+                </Link>
+              </article>
             ))}
           </div>
         ) : (
           <div className="text-center text-gray-600">
-            No Blogs Available For The {selectedCategory}.
+            No Latest Blogs Available.
           </div>
         )}
       </div>

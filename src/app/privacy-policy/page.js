@@ -1,24 +1,73 @@
 export const metadata = {
-  title: "How We Protect Your Data | UnplugWell",
+  title: "How We Protect Your Data | UnplugWell Privacy Policy",
   description:
     "Discover how UnplugWell collects, uses, and protects your data. Read our Privacy Policy to understand your rights and our commitment to your privacy.",
+  openGraph: {
+    title: "How We Protect Your Data | UnplugWell Privacy Policy",
+    description:
+      "Discover how UnplugWell collects, uses, and protects your data. Read our Privacy Policy to understand your rights and our commitment to your privacy.",
+    images: [
+      {
+        url: "https://unplugwell.com/unplugwell.png",
+        width: 800,
+        height: 600,
+        alt: "UnplugWell Logo",
+      },
+    ],
+    siteName: "UnplugWell",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "How We Protect Your Data | UnplugWell Privacy Policy",
+    description:
+      "Discover how UnplugWell collects, uses, and protects your data. Read our Privacy Policy to understand your rights and our commitment to your privacy.",
+    images: [
+      {
+        url: "https://unplugwell.com/unplugwell.png",
+        width: 800,
+        height: 600,
+        alt: "UnplugWell Logo",
+      },
+    ],
+  },
 };
 
 export default function PrivacyPolicy() {
   return (
     <main className="py-12 min-h-screen px-4 sm:px-6 lg:px-12">
-      <section className="relative py-16 sm:py-20">
-        <div className="absolute inset-0 bg-grid-white/[0.05]" />
+      <section
+        className="relative py-16 sm:py-20"
+        aria-labelledby="privacy-main-heading"
+      >
+        <div
+          className="absolute inset-0 bg-grid-white/[0.05]"
+          aria-hidden="true"
+        />
         <div className="relative max-w-7xl mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">
+            <h1
+              id="privacy-main-heading"
+              className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent"
+            >
               Privacy Policy
             </h1>
+            <p className="text-sm text-gray-500 mt-2">
+              Last Updated: May 15, 2025
+            </p>
           </div>
-          <div className="space-y-6">
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+          <div className="space-y-6" role="list">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="policy-introduction-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="policy-introduction-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   1. Introduction
                 </h2>
               </div>
@@ -35,9 +84,16 @@ export default function PrivacyPolicy() {
               </div>
             </div>
 
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="policy-information-collect-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="policy-information-collect-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   2. Information We Collect
                 </h2>
               </div>
@@ -97,9 +153,16 @@ export default function PrivacyPolicy() {
               </div>
             </div>
 
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="policy-how-we-use-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="policy-how-we-use-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   3. How We Use Your Information
                 </h2>
               </div>
@@ -126,9 +189,16 @@ export default function PrivacyPolicy() {
               </div>
             </div>
 
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="policy-cookies-tracking-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="policy-cookies-tracking-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   4. Cookies and Tracking Technologies
                 </h2>
               </div>
@@ -162,9 +232,16 @@ export default function PrivacyPolicy() {
               </div>
             </div>
 
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="policy-third-party-services-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="policy-third-party-services-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   5. Third-Party Services
                 </h2>
               </div>
@@ -202,9 +279,16 @@ export default function PrivacyPolicy() {
               </div>
             </div>
 
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="policy-data-security-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="policy-data-security-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   6. Data Security
                 </h2>
               </div>
@@ -227,9 +311,16 @@ export default function PrivacyPolicy() {
               </div>
             </div>
 
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="policy-data-retention-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="policy-data-retention-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   7. Data Retention
                 </h2>
               </div>
@@ -255,9 +346,16 @@ export default function PrivacyPolicy() {
               </div>
             </div>
 
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="policy-childrens-privacy-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="policy-childrens-privacy-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   8. Children's Privacy
                 </h2>
               </div>
@@ -281,9 +379,16 @@ export default function PrivacyPolicy() {
               </div>
             </div>
 
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="policy-your-rights-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="policy-your-rights-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   9. Your Rights
                 </h2>
               </div>
@@ -322,9 +427,16 @@ export default function PrivacyPolicy() {
               </div>
             </div>
 
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="policy-changes-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="policy-changes-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   10. Changes to This Privacy Policy
                 </h2>
               </div>
@@ -347,9 +459,16 @@ export default function PrivacyPolicy() {
               </div>
             </div>
 
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="policy-contact-us-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="policy-contact-us-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   11. Contact Us
                 </h2>
               </div>
@@ -358,17 +477,32 @@ export default function PrivacyPolicy() {
                   For any questions or concerns about this Privacy Policy,
                   please contact us:
                 </p>
-                <p className="mt-2 text-purple-600">
-                  Email: support@unplugwell.com
+                <div className="mt-2">
+                  Email:{" "}
+                  <a
+                    href="mailto:support@unplugwell.com"
+                    className="text-purple-600 hover:text-purple-700 hover:underline"
+                  >
+                    support@unplugwell.com
+                  </a>
                   <br />
-                  Contact: Available on UnplugWell.com
-                </p>
+                  <span className="text-gray-700">
+                    Contact: Available on UnplugWell.com
+                  </span>
+                </div>
               </div>
             </div>
 
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="policy-gdpr-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="policy-gdpr-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   12. GDPR Compliance (If Applicable)
                 </h2>
               </div>
@@ -382,9 +516,16 @@ export default function PrivacyPolicy() {
               </div>
             </div>
 
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="policy-ccpa-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="policy-ccpa-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   13. CCPA Compliance (If Applicable)
                 </h2>
               </div>

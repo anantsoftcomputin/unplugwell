@@ -18,7 +18,7 @@ const TrendingBlogs = () => {
         );
         setTrendingBlogs(response.data.results);
       } catch (error) {
-        console.log("error", error);
+        console.error("Error fetching trending blogs:", error);
       } finally {
         setLoading(false);
       }
@@ -33,28 +33,35 @@ const TrendingBlogs = () => {
         <div className="flex flex-col md:flex-row items-center justify-between mb-12">
           <div className="text-center md:text-left mb-6 md:mb-0">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-100 text-purple-600 mb-4">
-              <TrendingUp className="h-4 w-4" />
+              <TrendingUp className="h-4 w-4" aria-hidden="true" />
               <span className="text-sm font-semibold uppercase tracking-wider">
                 Trending Now
               </span>
             </div>
-            <h3 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">
+            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">
               Most Popular Articles
-            </h3>
+            </h2>
+            <p className="mt-2 text-gray-600">
+              Explore our most read and talked about articles.
+            </p>
           </div>
           <Link
             href="/blogs"
             className="group hidden md:flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-full font-semibold hover:bg-purple-700 transition-all duration-300"
+            aria-label="View all articles"
           >
             View All Articles
-            <ArrowRight className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
+            <ArrowRight
+              className="h-4 w-4 transform group-hover:translate-x-1 transition-transform"
+              aria-hidden="true"
+            />
           </Link>
         </div>
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-8">
             {[...Array(3)].map((_, index) => (
               <div
-                key={index}
+                key={`loading-${index}`}
                 className="bg-white rounded-2xl overflow-hidden shadow-lg"
               >
                 <div className="relative h-48 bg-gray-200 animate-pulse"></div>
@@ -67,7 +74,7 @@ const TrendingBlogs = () => {
                   <div className="flex flex-wrap gap-2 mb-4">
                     {[...Array(3)].map((_, tagIndex) => (
                       <div
-                        key={tagIndex}
+                        key={`loading-tag-${tagIndex}`}
                         className="h-6 w-16 bg-gray-200 rounded-md animate-pulse"
                       ></div>
                     ))}
@@ -93,12 +100,18 @@ const TrendingBlogs = () => {
         ) : trendingBlogs.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {trendingBlogs?.map((blog, index) => (
-              <Link key={index} href={`/${blog.slug}`}>
-                <article className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 flex flex-col">
+              <article
+                key={index}
+                className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 flex flex-col"
+              >
+                <Link
+                  href={`/${blog.slug}`}
+                  aria-label={`Read more about ${blog.title}`}
+                >
                   <div className="relative w-full h-48 sm:h-56 md:h-60 lg:h-56 overflow-hidden flex-shrink-0">
                     <img
                       src={blog.featured_image}
-                      alt={blog.image_alt}
+                      alt={blog.image_alt || blog.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -109,9 +122,9 @@ const TrendingBlogs = () => {
                     </div>
                   </div>
                   <div className="p-4 sm:p-6 flex flex-col flex-grow">
-                    <p className="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3 group-hover:text-purple-600 transition-colors">
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3 group-hover:text-purple-600 transition-colors">
                       {blog.title}
-                    </p>
+                    </h3>
                     <p className="text-gray-600 text-sm sm:text-base mb-3 sm:mb-4 flex-grow">
                       {blog.excerpt}
                     </p>
@@ -131,7 +144,10 @@ const TrendingBlogs = () => {
                     <div className="flex flex-wrap gap-3 items-center justify-between text-xs sm:text-sm text-gray-500">
                       <div className="flex items-center gap-3 sm:gap-4">
                         <span className="flex items-center gap-1">
-                          <BookCheck className="h-3 w-3 sm:h-4 sm:w-4 text-pink-500" />
+                          <BookCheck
+                            className="h-3 w-3 sm:h-4 sm:w-4 text-pink-500"
+                            aria-hidden="true"
+                          />
                           Estimated Read Time :{" "}
                           <span className="font-semibold">
                             {blog.estimated_reading_time} min
@@ -139,25 +155,31 @@ const TrendingBlogs = () => {
                         </span>
                       </div>
                       <span className="flex items-center gap-1">
-                        <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
+                        <Clock
+                          className="h-3 w-3 sm:h-4 sm:w-4"
+                          aria-hidden="true"
+                        />
                         {moment(blog.published_at).startOf("hour").fromNow()}
                       </span>
                     </div>
                   </div>
-                </article>
-              </Link>
+                </Link>
+              </article>
             ))}
           </div>
         ) : (
-          <div className="text-center text-gray-600">No Blogs Available.</div>
+          <div className="text-center text-gray-600">
+            No Trending Articles Available.
+          </div>
         )}
         <div className="mt-12 text-center md:hidden">
           <Link
             href="/blogs"
             className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-full font-semibold hover:bg-purple-700 transition-all duration-300"
+            aria-label="View all articles"
           >
             View All Articles
-            <ArrowRight className="h-4 w-4" />
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
       </div>

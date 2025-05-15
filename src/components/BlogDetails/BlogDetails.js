@@ -660,7 +660,7 @@ export default function BlogDetails({ slug }) {
                     className="px-3 py-1 rounded-full bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-medium"
                     itemProp="articleSection"
                   >
-                    {blog.category?.name}
+                    {blog?.category?.name}
                   </span>
                   <div className="flex items-center gap-1 text-gray-600">
                     <Calendar className="h-4 w-4" aria-hidden="true" />
