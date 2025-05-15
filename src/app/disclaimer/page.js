@@ -2,23 +2,72 @@ export const metadata = {
   title: "Important Disclaimer Notice | UnplugWell",
   description:
     "Read UnplugWell's Disclaimer to understand the limitations of our content, liability, and how users should interpret information on this site.",
+  openGraph: {
+    title: "Important Disclaimer Notice | UnplugWell",
+    description:
+      "Read UnplugWell's Disclaimer to understand the limitations of our content, liability, and how users should interpret information on this site.",
+    images: [
+      {
+        url: "https://unplugwell.com/unplugwell.png",
+        width: 800,
+        height: 600,
+        alt: "UnplugWell Logo",
+      },
+    ],
+    siteName: "UnplugWell",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Important Disclaimer Notice | UnplugWell",
+    description:
+      "Read UnplugWell's Disclaimer to understand the limitations of our content, liability, and how users should interpret information on this site.",
+    images: [
+      {
+        url: "https://unplugwell.com/unplugwell.png",
+        width: 800,
+        height: 600,
+        alt: "UnplugWell Logo",
+      },
+    ],
+  },
 };
 
 export default function Disclaimer() {
   return (
     <main className="py-12 min-h-screen px-4 sm:px-6 lg:px-12">
-      <section className="relative py-16 sm:py-20">
-        <div className="absolute inset-0 bg-grid-white/[0.05]" />
+      <section
+        className="relative py-16 sm:py-20"
+        aria-labelledby="disclaimer-main-heading"
+      >
+        <div
+          className="absolute inset-0 bg-grid-white/[0.05]"
+          aria-hidden="true"
+        />
         <div className="relative max-w-7xl mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">
+            <h1
+              id="disclaimer-main-heading"
+              className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent"
+            >
               Disclaimer
             </h1>
+            <p className="text-sm text-gray-500 mt-2">
+              Last Updated: May 15, 2025
+            </p>
           </div>
-          <div className="space-y-6">
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+          <div className="space-y-6" role="list">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="disclaimer-general-info-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="disclaimer-general-info-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   1. General Information
                 </h2>
               </div>
@@ -34,9 +83,16 @@ export default function Disclaimer() {
               </div>
             </div>
 
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="disclaimer-digital-detox-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="disclaimer-digital-detox-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   2. Digital Detox and Well-being
                 </h2>
               </div>
@@ -82,9 +138,16 @@ export default function Disclaimer() {
               </div>
             </div>
 
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="disclaimer-tech-internet-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="disclaimer-tech-internet-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   3. Technology and Internet Use
                 </h2>
               </div>
@@ -127,9 +190,16 @@ export default function Disclaimer() {
               </div>
             </div>
 
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="disclaimer-liability-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="disclaimer-liability-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   4. Limitation of Liability
                 </h2>
               </div>
@@ -161,9 +231,16 @@ export default function Disclaimer() {
               </div>
             </div>
 
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="disclaimer-external-links-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="disclaimer-external-links-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   5. External Links
                 </h2>
               </div>
@@ -192,9 +269,16 @@ export default function Disclaimer() {
               </div>
             </div>
 
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="disclaimer-changes-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="disclaimer-changes-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   6. Changes to This Disclaimer
                 </h2>
               </div>
@@ -222,9 +306,16 @@ export default function Disclaimer() {
               </div>
             </div>
 
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="disclaimer-governing-law-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="disclaimer-governing-law-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   7. Governing Law
                 </h2>
               </div>
@@ -236,9 +327,16 @@ export default function Disclaimer() {
               </div>
             </div>
 
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div
+              className="bg-white shadow-md rounded-lg overflow-hidden"
+              role="listitem"
+              aria-labelledby="disclaimer-contact-us-heading"
+            >
               <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2
+                  id="disclaimer-contact-us-heading"
+                  className="text-xl font-semibold text-gray-900"
+                >
                   8. Contact Us
                 </h2>
               </div>
@@ -247,13 +345,23 @@ export default function Disclaimer() {
                   If you have any questions or concerns about these Terms and
                   Conditions, please contact us at:
                 </p>
-                <p className="mt-2 text-purple-600">
-                  Email: support@unplugwell.com
+                <div className="mt-2">
+                  Email:{" "}
+                  <a
+                    href="mailto:support@unplugwell.com"
+                    className="text-purple-600 hover:text-purple-700 hover:underline"
+                  >
+                    support@unplugwell.com
+                  </a>
                   <br />
-                  Address: Alkapuri, Vadodara, Gujarat, India 390007.
+                  <address className="not-italic mt-1 text-gray-700">
+                    Address: Alkapuri, Vadodara, Gujarat, India 390007.
+                  </address>
                   <br />
-                  Contact: Available on UnplugWell.com
-                </p>
+                  <span className="text-gray-700">
+                    Contact: Available on UnplugWell.com
+                  </span>
+                </div>
               </div>
             </div>
           </div>

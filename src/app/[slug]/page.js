@@ -26,14 +26,26 @@ export const generateMetadata = async ({ params }) => {
           {
             url: blog?.featured_image,
             alt: blog?.image_alt || blog?.meta_title,
+            width: 800,
+            height: 600,
           },
         ],
+        siteName: "UnplugWell",
+        locale: "en_US",
+        type: "website",
       },
       twitter: {
         card: "summary_large_image",
         title: blog?.meta_title,
         description: blog?.meta_description,
-        images: [blog?.featured_image],
+        images: [
+          {
+            url: blog?.featured_image,
+            alt: blog?.image_alt || blog?.meta_title,
+            width: 800,
+            height: 600,
+          },
+        ],
       },
     };
   } catch (error) {

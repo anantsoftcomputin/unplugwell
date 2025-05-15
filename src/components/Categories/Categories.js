@@ -36,8 +36,9 @@ export default function Categories() {
           "/get-categories/?site=unplugwell.com",
           { method: "GET" }
         );
+        const results = response?.data?.results || [];
         setCategories(
-          response.data.results.map((item, index) => ({
+          results.map((item, index) => ({
             id: item.id,
             name: item.name,
             slug: item.slug,
@@ -46,7 +47,8 @@ export default function Categories() {
           }))
         );
       } catch (error) {
-        console.log("error", error);
+        console.error("Error fetching categories:", error);
+        setCategories([]);
       } finally {
         setLoading(false);
       }
@@ -86,7 +88,10 @@ export default function Categories() {
     }
 
     return (
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8">
+      <nav
+        className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8"
+        aria-label="Categories pagination"
+      >
         <div className="text-sm text-gray-600">
           Showing {indexOfFirstItem + 1}-
           {Math.min(indexOfLastItem, filteredCategories.length)} of{" "}
@@ -161,7 +166,7 @@ export default function Categories() {
             <ChevronRight className="w-5 h-5 text-gray-600" />
           </button>
         </div>
-      </div>
+      </nav>
     );
   };
 
@@ -191,12 +196,14 @@ export default function Categories() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-12 pr-4 py-4 md:py-5 rounded-full bg-white text-gray-800 placeholder-gray-500 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
+                  aria-label="Search categories"
                 />
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery("")}
                     className="absolute right-4 top-1/2 -translate-y-1/2 h-6 w-6 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors"
+                    aria-label="Clear search query"
                   >
                     <X className="h-4 w-4" />
                   </button>
@@ -213,6 +220,7 @@ export default function Categories() {
               <div
                 key={index}
                 className="overflow-hidden bg-white rounded-2xl shadow-lg"
+                aria-busy="true"
               >
                 <div className="p-8 h-full min-h-[320px] flex flex-col">
                   <div className="flex items-start justify-between mb-4">
@@ -234,9 +242,14 @@ export default function Categories() {
         ) : currentItems.length > 0 ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {currentItems.map((category, index) => (
-                <Link key={index} href={`/categories/${category.slug}`}>
-                  <div className="relative group overflow-hidden bg-white rounded-2xl shadow-lg transition-all duration-500 hover:shadow-xl">
+              {currentItems.map((category) => (
+                <Link
+                  key={category.id || category.slug}
+                  href={`/categories/${category.slug}`}
+                  passHref
+                  legacyBehavior
+                >
+                  <a className="relative group overflow-hidden bg-white rounded-2xl shadow-lg transition-all duration-500 hover:shadow-xl block">
                     <div
                       className={`absolute inset-0 bg-gradient-to-r ${
                         gradientColors[category.colorIndex]
@@ -245,31 +258,39 @@ export default function Categories() {
                     <div className="relative p-8 h-full min-h-[320px] flex flex-col">
                       <div className="flex items-start justify-between mb-4">
                         <div className="bg-white/20 p-3 rounded-xl">
-                          <Folder className="h-6 w-6 text-white" />
+                          <Folder
+                            className="h-6 w-6 text-white"
+                            aria-hidden="true"
+                          />
                         </div>
                       </div>
-                      <h3 className="text-2xl font-bold text-white mb-2">
+                      <h2 className="text-2xl font-bold text-white mb-2">
                         {category.name}
-                      </h3>
+                      </h2>
                       <p className="text-white/90 mb-6">
                         {category.description}
                       </p>
                       <div className="mt-auto">
                         <div className="inline-flex items-center gap-2 text-white font-medium group/link">
                           Explore Category
-                          <ArrowRight className="h-4 w-4 transform group-hover/link:translate-x-1 transition-transform" />
+                          <ArrowRight
+                            className="h-4 w-4 transform group-hover/link:translate-x-1 transition-transform"
+                            aria-hidden="true"
+                          />
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </a>
                 </Link>
               ))}
             </div>
             <PaginationControls />
           </>
         ) : (
-          <div className="flex justify-center items-center">
-            <div className="text-center text-gray-600">No Category Found.</div>
+          <div className="flex justify-center items-center py-10">
+            <div className="text-center text-gray-600 text-lg">
+              No categories found matching your search criteria.
+            </div>
           </div>
         )}
       </section>

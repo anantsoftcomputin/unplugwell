@@ -22,6 +22,34 @@ export const generateMetadata = async ({ params }) => {
     return {
       title: category?.results[0]?.meta_title,
       description: category?.results[0]?.meta_description,
+      openGraph: {
+        title: category?.results[0]?.meta_title,
+        description: category?.results[0]?.meta_description,
+        images: [
+          {
+            url: "https://unplugwell.com/unplugwell.png",
+            width: 800,
+            height: 600,
+            alt: "UnplugWell Logo",
+          },
+        ],
+        siteName: "UnplugWell",
+        locale: "en_US",
+        type: "website",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: category?.results[0]?.meta_title,
+        description: category?.results[0]?.meta_description,
+        images: [
+          {
+            url: "https://unplugwell.com/unplugwell.png",
+            width: 800,
+            height: 600,
+            alt: "UnplugWell Logo",
+          },
+        ],
+      },
     };
   } catch (error) {
     console.log("error", error);

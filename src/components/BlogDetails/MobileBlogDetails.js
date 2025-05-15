@@ -103,7 +103,7 @@ export default function BlogDetails({ slug }) {
             >
               <div className="flex flex-wrap items-center gap-3 text-sm">
                 <span className="px-3 py-1 rounded-full bg-indigo-600 text-white font-medium">
-                  {blog.category?.name}
+                  {blog?.category?.name}
                 </span>
                 <div className="flex items-center gap-1 text-gray-500">
                   <Calendar className="h-4 w-4" aria-hidden="true" />

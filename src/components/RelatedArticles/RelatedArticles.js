@@ -1,3 +1,4 @@
+"use client";
 import { motion } from "framer-motion";
 import { Sparkles, Tag } from "lucide-react";
 import Link from "next/link";
@@ -40,20 +41,27 @@ export default function RelatedArticles({ relatedBlogs }) {
                     src={relatedBlog.featured_image}
                     alt={relatedBlog.title}
                     className="w-full h-full object-cover transition-transform hover:scale-105 duration-500"
+                    loading="lazy"
                   />
-                  <div className="absolute top-4 left-4">
-                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/90 text-purple-600 text-sm font-medium">
-                      <Tag className="h-3 w-3" aria-hidden="true" />
-                      {relatedBlog.category.name}
-                    </span>
-                  </div>
+                  {relatedBlog.category && relatedBlog.category.name && (
+                    <div className="absolute top-4 left-4">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/90 text-purple-600 text-sm font-medium">
+                        <Tag className="h-3 w-3" aria-hidden="true" />
+                        {relatedBlog.category.name}
+                      </span>
+                    </div>
+                  )}
                 </div>
               )}
               <div className="p-4 h-full flex flex-col">
                 <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 hover:text-purple-600 transition-colors">
                   {relatedBlog.title}
                 </h3>
-                <p className="text-gray-600 flex-grow">{relatedBlog.excerpt}</p>
+                {relatedBlog.excerpt && (
+                  <p className="text-gray-600 flex-grow">
+                    {relatedBlog.excerpt}
+                  </p>
+                )}
               </div>
             </Link>
           </motion.article>

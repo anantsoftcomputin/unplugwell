@@ -1,12 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Clock, Search } from "lucide-react";
+import { Clock, Search, X } from "lucide-react";
 import "swiper/css";
 import "swiper/css/autoplay";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import moment from "moment";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import ajaxCall from "@/helpers/ajaxCall";
 
 export default function CategoriesBlogs({ slug }) {
@@ -14,6 +15,7 @@ export default function CategoriesBlogs({ slug }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [relatedBlogs, setRelatedBlogs] = useState([]);
   const [filteredBlogs, setFilteredBlogs] = useState([]);
+  const [categoryName, setCategoryName] = useState("");
 
   useEffect(() => {
     const fetchRelatedBlogs = async () => {
@@ -25,6 +27,12 @@ export default function CategoriesBlogs({ slug }) {
         );
         setRelatedBlogs(response.data.results);
         setFilteredBlogs(response.data.results);
+
+        // Set formatted category name for SEO
+        const formattedName = slug
+          .replace(/-/g, " ")
+          .replace(/\b\w/g, (char) => char.toUpperCase());
+        setCategoryName(formattedName);
       } catch (error) {
         console.log("error", error);
       } finally {
@@ -53,24 +61,38 @@ export default function CategoriesBlogs({ slug }) {
         <div className="relative container mx-auto px-6">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              {slug
-                .replace(/-/g, " ")
-                .replace(/\b\w/g, (char) => char.toUpperCase())}
-              's Blogs
+              {categoryName}'s Blogs
             </h1>
             <p className="text-xl text-purple-100 mb-8">
               Discover insights and strategies for maintaining digital wellness
               in today's connected world.
             </p>
             <div className="relative max-w-2xl mx-auto">
-              <input
-                type="text"
-                placeholder="Search blogs..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 rounded-full bg-white/10 backdrop-blur-sm text-white placeholder-purple-200 border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:bg-white/20"
-              />
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-purple-200" />
+              <motion.div
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="relative"
+              >
+                <input
+                  type="text"
+                  placeholder={`Search ${categoryName} blogs...`}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-12 pr-4 py-4 md:py-5 rounded-full bg-white text-gray-800 placeholder-gray-500 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
+                  aria-label="Search category blogs"
+                />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 h-6 w-6 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center hover:bg-gray-300 transition-colors"
+                    aria-label="Clear search query"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </motion.div>
             </div>
           </div>
         </div>
@@ -96,19 +118,22 @@ export default function CategoriesBlogs({ slug }) {
             className="mySwiper"
           >
             {filteredBlogs.map((blog, index) => (
-              <SwiperSlide key={index}>
-                <Link href={`/${blog.slug}`}>
-                  <article className="h-full flex flex-col bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+              <SwiperSlide key={blog.id}>
+                <article className="h-full flex flex-col bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                  <Link href={`/${blog.slug}`} className="group">
                     <div className="relative h-48">
                       <img
                         src={blog.featured_image}
-                        alt={blog.image_alt}
+                        alt={blog.image_alt || blog.title}
                         className="w-full h-full object-cover"
+                        loading={index > 2 ? "lazy" : "eager"}
+                        width={400}
+                        height={250}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     </div>
                     <div className="p-6 flex flex-col flex-grow">
-                      <h3 className="text-xl font-bold text-gray-900 mb-2 hover:text-purple-600">
+                      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600">
                         {blog.title}
                       </h3>
                       <p className="text-gray-600 flex-grow">{blog.excerpt}</p>
@@ -121,7 +146,13 @@ export default function CategoriesBlogs({ slug }) {
                             {blog.author.full_name}
                           </p>
                           <p className="text-xs text-gray-500">
-                            {moment(blog.published_at).format("ll")}
+                            <time
+                              dateTime={moment(blog.published_at).format(
+                                "YYYY-MM-DD"
+                              )}
+                            >
+                              {moment(blog.published_at).format("ll")}
+                            </time>
                           </p>
                         </div>
                       </div>
@@ -130,16 +161,18 @@ export default function CategoriesBlogs({ slug }) {
                           <Clock className="h-4 w-4" />
                           {moment(blog.published_at).startOf("hour").fromNow()}
                         </span>
-                        <button className="text-purple-600">Read More</button>
+                        <span className="text-purple-600">Read More</span>
                       </div>
                     </div>
-                  </article>
-                </Link>
+                  </Link>
+                </article>
               </SwiperSlide>
             ))}
           </Swiper>
         ) : (
-          <div className="text-center text-gray-600">No Blogs Available.</div>
+          <div className="text-center text-gray-600">
+            <h2>No Blogs Available</h2>
+          </div>
         )}
       </section>
     </main>
