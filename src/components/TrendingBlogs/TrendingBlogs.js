@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import moment from "moment";
 import ajaxCall from "@/helpers/ajaxCall";
-import { TrendingUp, Clock, ArrowRight, BookCheck } from "lucide-react";
+import { TrendingUp, Clock, ArrowRight, BookCheck, Tag } from "lucide-react";
 
 const TrendingBlogs = () => {
   const [loading, setLoading] = useState(true);
@@ -116,7 +116,8 @@ const TrendingBlogs = () => {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
-                      <span className="px-3 py-1 sm:px-4 sm:py-2 bg-white/90 text-purple-600 text-xs sm:text-sm font-medium rounded-full shadow-lg">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/90 text-purple-600 text-sm font-medium">
+                        <Tag className="h-3 w-3" aria-hidden="true" />
                         {blog.category.name}
                       </span>
                     </div>
@@ -130,7 +131,11 @@ const TrendingBlogs = () => {
                     </p>
                     <div className="flex items-center gap-3 mb-3 sm:mb-4">
                       <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-purple-100 flex items-center justify-center bg-purple-100 text-purple-600 font-semibold">
-                        {blog.author.full_name.charAt(0)}
+                        {blog.author.full_name.includes(" ")
+                          ? `${blog.author.full_name.split(" ")[0][0]}${
+                              blog.author.full_name.split(" ")[1][0]
+                            }`
+                          : blog.author.full_name.substring(0, 2)}
                       </div>
                       <div>
                         <p className="text-xs sm:text-sm font-medium text-gray-900">

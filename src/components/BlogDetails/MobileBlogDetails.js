@@ -12,6 +12,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import moment from "moment";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import ajaxCall from "@/helpers/ajaxCall";
@@ -128,7 +129,11 @@ export default function BlogDetails({ slug }) {
                 <div className="flex items-center gap-3">
                   {blog.author?.full_name && (
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-600 to-pink-600 flex items-center justify-center text-white font-semibold">
-                      {blog.author.full_name.charAt(0)}
+                      {blog.author.full_name.includes(" ")
+                        ? `${blog.author.full_name.split(" ")[0][0]}${
+                            blog.author.full_name.split(" ")[1][0]
+                          }`
+                        : blog.author.full_name.substring(0, 2)}
                     </div>
                   )}
                   <div>
@@ -248,13 +253,16 @@ export default function BlogDetails({ slug }) {
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {blog.tags.map((tag, index) => (
-                      <span
+                      <Link
                         key={index}
+                        href={`/tag/${tag.slug}`}
                         className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-white/80 text-indigo-600 text-sm font-medium hover:shadow-md transition-shadow"
+                        aria-label={`View all posts tagged ${tag.name}`}
+                        itemProp="keywords"
                       >
-                        <Tag className="h-3 w-3" aria-hidden="true" />
+                        <Tag className="h-3 w-3" aria-hidden="true" />{" "}
                         {tag.name}
-                      </span>
+                      </Link>
                     ))}
                   </div>
                 </motion.div>
@@ -271,7 +279,11 @@ export default function BlogDetails({ slug }) {
                   </h3>
                   <div className="flex flex-col items-center text-center">
                     <div className="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-600 to-pink-600 flex items-center justify-center text-white text-2xl font-semibold mb-3">
-                      {blog.author.full_name.charAt(0)}
+                      {blog.author.full_name.includes(" ")
+                        ? `${blog.author.full_name.split(" ")[0][0]}${
+                            blog.author.full_name.split(" ")[1][0]
+                          }`
+                        : blog.author.full_name.substring(0, 2)}
                     </div>
                     <h4 className="text-xl font-semibold text-gray-900">
                       {blog.author.full_name}

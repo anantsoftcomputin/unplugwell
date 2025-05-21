@@ -1,48 +1,56 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Search, X, BookOpen, BookCheck } from "lucide-react";
+import { Search, X, BookOpen, BookCheck, Tag } from "lucide-react";
 import moment from "moment";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import ajaxCall from "@/helpers/ajaxCall";
 
-export default function CategoriesBlogs({ slug }) {
+export default function TagBlogs({ slug }) {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [blogs, setBlogs] = useState([]);
   const [filteredBlogs, setFilteredBlogs] = useState([]);
-  const [categoryName, setCategoryName] = useState("");
-  const [categoryDescription, setCategoryDescription] = useState("");
+  const [tagName, setTagName] = useState("");
+  const [tagDescription, setTagDescription] = useState("");
 
   useEffect(() => {
-    const fetchCategoryBlogs = async () => {
+    const fetchTagBlogs = async () => {
       if (!slug) return;
       try {
         const response = await ajaxCall(
-          `/posts-category/?site_domain=unplugwell.com&category_slug=${slug}`,
+          "/all-posts/?site_domain=unplugwell.com",
           { method: "GET" }
         );
 
-        setBlogs(response.data.results);
-        setFilteredBlogs(response.data.results);
+        const filtered = response.data.results.filter((blog) =>
+          blog.tags.some((tag) => tag.slug === slug)
+        );
 
-        if (response.data.results.length > 0) {
-          const formattedName = slug
-            .replace(/-/g, " ")
-            .replace(/\b\w/g, (char) => char.toUpperCase());
-          setCategoryName(formattedName);
-          setCategoryDescription(
-            `Explore our collection of articles about ${formattedName}. Discover insights, tips, and strategies related to ${formattedName} and digital wellness.`
-          );
+        setBlogs(filtered);
+        setFilteredBlogs(filtered);
+
+        if (filtered.length > 0) {
+          const matchedTag = filtered[0].tags.find((tag) => tag.slug === slug);
+          if (matchedTag) {
+            setTagName(
+              slug
+                .replace(/-/g, " ")
+                .replace(/\b\w/g, (char) => char.toUpperCase())
+            );
+            setTagDescription(
+              `Explore our collection of articles about ${matchedTag.name}. Discover insights, tips, and strategies related to ${matchedTag.name} and digital wellness.`
+            );
+          }
         }
       } catch (error) {
-        console.log("error", error);
+        console.error("Error fetching tag blogs:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCategoryBlogs();
+    fetchTagBlogs();
   }, [slug]);
 
   useEffect(() => {
@@ -61,7 +69,7 @@ export default function CategoriesBlogs({ slug }) {
   return (
     <main className="py-12 min-h-screen">
       <section
-        aria-labelledby="category-heading"
+        aria-labelledby="tag-heading"
         className="relative py-20 bg-gradient-to-br from-purple-900 via-indigo-900 to-purple-900"
       >
         <div
@@ -71,15 +79,20 @@ export default function CategoriesBlogs({ slug }) {
         <div className="relative container mx-auto px-6">
           <div className="max-w-3xl mx-auto text-center">
             <h1
-              id="category-heading"
+              id="tag-heading"
               className="text-4xl md:text-5xl font-bold text-white mb-6"
               itemProp="name"
             >
-              {categoryName}'s Blogs
+              {tagName}'s Blogs
             </h1>
             <p className="text-xl text-purple-100 mb-8">
-              {categoryDescription}
+              {tagDescription ||
+                `Discover insights and strategies about ${slug.replace(
+                  /-/g,
+                  " "
+                )} for maintaining digital wellness in today's connected world.`}
             </p>
+
             <div className="relative max-w-2xl mx-auto">
               <motion.div
                 initial={{ scale: 0.95, opacity: 0 }}
@@ -89,11 +102,11 @@ export default function CategoriesBlogs({ slug }) {
               >
                 <input
                   type="text"
-                  placeholder={`Search ${categoryName} articles...`}
+                  placeholder={`Search ${tagName} articles...`}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-12 pr-4 py-4 md:py-5 rounded-full bg-white text-gray-800 placeholder-gray-500 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
-                  aria-label={`Search ${categoryName} articles`}
+                  aria-label={`Search ${tagName} articles`}
                 />
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                 {searchQuery && (
@@ -122,8 +135,8 @@ export default function CategoriesBlogs({ slug }) {
           >
             <BookOpen className="h-5 w-5 text-purple-600" aria-hidden="true" />
             {searchQuery
-              ? `Search Results for "${searchQuery}" in ${categoryName}`
-              : `All ${categoryName} Articles`}
+              ? `Search Results for "${searchQuery}" in ${tagName}`
+              : `All ${tagName} Articles`}
           </h2>
           <div className="text-sm text-gray-600">
             {filteredBlogs.length}{" "}
@@ -155,29 +168,23 @@ export default function CategoriesBlogs({ slug }) {
             ))}
           </div>
         ) : filteredBlogs.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredBlogs.map((blog) => (
-              <motion.article
-                key={blog.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                whileHover={{ y: -5 }}
-                className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
-                itemScope
-                itemType="https://schema.org/BlogPosting"
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {filteredBlogs?.map((blog, index) => (
+              <article
+                key={index}
+                className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 flex flex-col"
               >
                 <Link
                   href={`/${blog.slug}`}
-                  className="group flex flex-col h-full"
+                  aria-label={`Read more about ${blog.title}`}
+                  className="flex flex-col h-full"
                 >
                   <div className="relative w-full h-48 sm:h-56 md:h-60 lg:h-56 overflow-hidden flex-shrink-0">
                     <img
                       src={blog.featured_image}
                       alt={blog.image_alt || blog.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      loading="lazy"
-                      itemProp="image"
+                      loading={index < 3 ? "eager" : "lazy"}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
@@ -187,35 +194,31 @@ export default function CategoriesBlogs({ slug }) {
                     </div>
                   </div>
 
-                  <div className="p-6 flex flex-col flex-grow">
-                    <h3
-                      className="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3 group-hover:text-purple-600 transition-colors"
-                      itemProp="headline"
-                    >
+                  <div className="p-4 sm:p-6 flex flex-col flex-grow">
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3 group-hover:text-purple-600 transition-colors">
                       {blog.title}
                     </h3>
-                    <p
-                      className="text-gray-600 text-sm sm:text-base mb-3 sm:mb-4 flex-grow"
-                      itemProp="description"
-                    >
+                    <p className="text-gray-600 text-sm sm:text-base mb-3 sm:mb-4 flex-grow line-clamp-2">
                       {blog.excerpt}
                     </p>
 
                     {blog.tags && blog.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mb-3 sm:mb-4">
-                        {blog.tags.slice(0, 3).map((tag, tagIndex) => (
-                          <Link
-                            key={tagIndex}
-                            href={`/tags/${tag.slug}`}
-                            className="px-2 py-1 bg-purple-50 text-purple-600 text-xs rounded-full hover:bg-purple-100 transition-colors"
-                            aria-label={`View more ${tag.name} articles`}
-                            itemProp="keywords"
-                          >
-                            {tag.name}
-                          </Link>
-                        ))}
-                        {blog.tags.length > 3 && (
-                          <span className="px-2 py-1 text-xs text-gray-500">
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {blog.tags &&
+                          blog.tags.slice(0, 3).map((tag, index) => (
+                            <Link
+                              key={index}
+                              href={`/tag/${tag.slug}`}
+                              className="inline-flex items-center gap-1 px-2 py-1 rounded-full border-2 border-purple-100 bg-purple-100 text-purple-600 text-sm"
+                              aria-label={`View all posts tagged ${tag.name}`}
+                              itemProp="keywords"
+                            >
+                              <Tag className="h-3 w-3" aria-hidden="true" />{" "}
+                              {tag.name}
+                            </Link>
+                          ))}
+                        {blog.tags && blog.tags.length > 3 && (
+                          <span className="px-2 py-1 rounded-md text-sm text-gray-500">
                             +{blog.tags.length - 3} more
                           </span>
                         )}
@@ -223,12 +226,7 @@ export default function CategoriesBlogs({ slug }) {
                     )}
 
                     <div className="flex items-center gap-3 mb-3 sm:mb-4">
-                      <div
-                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-purple-100 flex items-center justify-center bg-purple-100 text-purple-600 font-semibold"
-                        itemProp="author"
-                        itemScope
-                        itemType="https://schema.org/Person"
-                      >
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-purple-100 flex items-center justify-center bg-purple-100 text-purple-600 font-semibold">
                         {blog.author.full_name.includes(" ")
                           ? `${blog.author.full_name.split(" ")[0][0]}${
                               blog.author.full_name.split(" ")[1][0]
@@ -236,19 +234,12 @@ export default function CategoriesBlogs({ slug }) {
                           : blog.author.full_name.substring(0, 2)}
                       </div>
                       <div>
-                        <p
-                          className="text-xs sm:text-sm font-medium text-gray-900"
-                          itemProp="name"
-                        >
+                        <p className="text-xs sm:text-sm font-medium text-gray-900">
                           {blog.author.full_name}
                         </p>
-                        <time
-                          className="text-xs sm:text-sm text-gray-500"
-                          dateTime={moment(blog.published_at).format()}
-                          itemProp="datePublished"
-                        >
+                        <p className="text-xs sm:text-sm text-gray-500">
                           {moment(blog.published_at).format("ll")}
-                        </time>
+                        </p>
                       </div>
                     </div>
 
@@ -266,7 +257,7 @@ export default function CategoriesBlogs({ slug }) {
                     </div>
                   </div>
                 </Link>
-              </motion.article>
+              </article>
             ))}
           </div>
         ) : (
@@ -279,8 +270,12 @@ export default function CategoriesBlogs({ slug }) {
             </h3>
             <p className="text-gray-600 mb-4">
               {searchQuery
-                ? `No results found for "${searchQuery}" in ${categoryName}`
-                : `No articles available for ${categoryName} yet.`}
+                ? `No results found for "${searchQuery}" in ${
+                    tagName || slug.replace(/-/g, " ")
+                  }`
+                : `No articles available for ${
+                    tagName || slug.replace(/-/g, " ")
+                  } yet.`}
             </p>
             <button
               onClick={() => setSearchQuery("")}
