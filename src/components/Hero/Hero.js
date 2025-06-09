@@ -7,7 +7,6 @@ import {
   Brain,
   Moon,
   Users,
-  ShieldCheck,
 } from "lucide-react";
 
 const stats = [
@@ -38,34 +37,6 @@ const stats = [
     bgColor: "bg-pink-600/20",
     count: "10K+",
     label: "Transformed Lives",
-  },
-];
-
-const features = [
-  {
-    id: "feat-tools",
-    icon: (
-      <ShieldCheck className="h-6 w-6 text-purple-600" aria-hidden="true" />
-    ),
-    bgColor: "bg-purple-100",
-    title: "Digital Wellness Tools",
-    description:
-      "Apps and techniques to monitor and improve your digital habits.",
-  },
-  {
-    id: "feat-mindfulness",
-    icon: <Brain className="h-6 w-6 text-purple-600" aria-hidden="true" />,
-    bgColor: "bg-purple-100",
-    title: "Mindfulness Practices",
-    description:
-      "Simple meditation and mindfulness exercises for digital balance.",
-  },
-  {
-    id: "feat-community",
-    icon: <Users className="h-6 w-6 text-purple-600" aria-hidden="true" />,
-    bgColor: "bg-purple-100",
-    title: "Community Support",
-    description: "Connect with others on similar digital wellness journeys.",
   },
 ];
 
@@ -153,57 +124,6 @@ const Hero = () => {
                 </div>
                 <div className="text-purple-200 text-sm">{stat.label}</div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-      <section
-        id="content-section"
-        aria-labelledby="features-heading"
-        className="py-16 bg-purple-50"
-      >
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2
-              id="features-heading"
-              className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent mb-4"
-            >
-              Digital Wellness Solutions
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Simple tools and practices to help balance your digital life
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-8xl mx-auto">
-            {features.map((featureItem) => (
-              <article
-                key={featureItem.id}
-                aria-labelledby={`feature-title-${featureItem.id}`}
-                className="p-6 bg-white rounded-xl border border-purple-200/50 shadow-md hover:shadow-lg transition-all duration-300 flex flex-col"
-              >
-                <div
-                  className={`${featureItem.bgColor} p-3 rounded-lg w-12 h-12 flex items-center justify-center mb-4`}
-                >
-                  {featureItem.icon}
-                </div>
-                <h3
-                  id={`feature-title-${featureItem.id}`}
-                  className="text-xl font-semibold text-purple-600 mb-2"
-                >
-                  {featureItem.title}
-                </h3>
-                <p className="text-gray-600 mb-4 flex-grow">
-                  {featureItem.description}
-                </p>
-                <Link
-                  href="/blogs"
-                  aria-label={`Learn more about ${featureItem.title}`}
-                  className="inline-flex items-center text-gray-600 hover:text-purple-600 transition-colors mt-auto"
-                >
-                  Learn more
-                  <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
-                </Link>
-              </article>
             ))}
           </div>
         </div>
