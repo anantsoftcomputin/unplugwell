@@ -30,7 +30,7 @@ const socialLinks = [
   {
     name: "Instagram",
     icon: Instagram,
-    href: "https://www.instagram.com/unplugwell/",
+    href: "https://www.instagram.com/unplugwell5/",
   },
 ];
 

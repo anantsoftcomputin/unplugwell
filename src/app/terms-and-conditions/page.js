@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export const metadata = {
   title: "UnplugWell – Terms & Conditions You Should Know",
   description:
@@ -53,9 +55,6 @@ export default function TermsAndConditions() {
             >
               Terms & Conditions
             </h1>
-            <p className="text-sm text-gray-500 mt-2">
-              Last Updated: May 15, 2025{" "}
-            </p>
           </div>
 
           <div className="space-y-6" role="list">
@@ -405,7 +404,7 @@ export default function TermsAndConditions() {
                   If you have any questions or concerns about these Terms and
                   Conditions, please contact us at:
                 </p>
-                <div className="mt-2">
+                <div className="text-gray-600 mt-2">
                   Email:{" "}
                   <a
                     href="mailto:support@unplugwell.com"
@@ -418,9 +417,13 @@ export default function TermsAndConditions() {
                     Address: Alkapuri, Vadodara, Gujarat, India 390007.
                   </address>
                   <br />
-                  <span className="text-gray-700">
-                    Contact: Available on UnplugWell.com
-                  </span>
+                  Contact: Available on{" "}
+                  <Link
+                    href="/contact-us"
+                    className="text-purple-600 hover:text-purple-700 hover:underline"
+                  >
+                    unplugwell.com
+                  </Link>
                 </div>
               </div>
             </div>

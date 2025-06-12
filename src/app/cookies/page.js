@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export const metadata = {
   title: "How UnplugWell Uses Cookies on This Site | Cookie Policy",
   description:
@@ -53,9 +55,6 @@ export default function CookiesPolicy() {
             >
               Cookie Policy
             </h1>
-            <p className="text-sm text-gray-500 mt-2">
-              Last Updated: May 15, 2025
-            </p>
           </div>
           <div className="space-y-6" role="list">
             <div
@@ -321,7 +320,7 @@ export default function CookiesPolicy() {
                   If you have any questions or concerns about these Terms and
                   Conditions, please contact us at:
                 </p>
-                <div className="mt-2">
+                <div className="text-gray-600 mt-2">
                   Email:{" "}
                   <a
                     href="mailto:support@unplugwell.com"
@@ -330,13 +329,17 @@ export default function CookiesPolicy() {
                     support@unplugwell.com
                   </a>
                   <br />
-                  <address className="not-italic mt-1 text-gray-700">
+                  Contact: Available on{" "}
+                  <Link
+                    href="/contact-us"
+                    className="text-purple-600 hover:text-purple-700 hover:underline"
+                  >
+                    unplugwell.com
+                  </Link>
+                  <address className="not-italic text-gray-700">
                     Address: Alkapuri, Vadodara, Gujarat, India 390007.
                   </address>
                   <br />
-                  <span className="text-gray-700">
-                    Contact: Available on UnplugWell.com
-                  </span>
                 </div>
               </div>
             </div>
