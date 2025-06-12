@@ -12,13 +12,13 @@ export default function Home() {
     logo: "https://unplugwell.com/unplugwell.png",
     sameAs: [
       "https://www.facebook.com/unplugwelldigitaldetox/",
-      "https://www.instagram.com/unplugwell/",
+      "https://www.instagram.com/unplugwell5/",
       "https://x.com/unplugwell",
     ],
     description:
       "Unplugwell offers mindful digital detox tips, wellness guides, and resources for tech-life balance and mental well-being.",
   };
-  
+
   return (
     <>
       <script

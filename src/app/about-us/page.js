@@ -30,8 +30,8 @@ export const metadata = {
         height: 600,
         alt: "UnplugWell Logo",
       },
-    ]
-  }
+    ],
+  },
 };
 
 import AboutUs from "@/components/AboutUs/AboutUs";

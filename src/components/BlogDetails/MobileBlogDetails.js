@@ -226,7 +226,7 @@ export default function BlogDetails({ slug }) {
                   <motion.a
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    href="https://www.instagram.com/unplugwell/"
+                    href="https://www.instagram.com/unplugwell5/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex flex-col items-center justify-center p-3 rounded-lg bg-[#0A66C2]/10 text-[#0A66C2] hover:bg-[#0A66C2]/20 transition-colors"
