@@ -1,54 +1,65 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import moment from "moment";
+import { motion } from "framer-motion";
+import ajaxCall from "@/helpers/ajaxCall";
 import {
-  ArrowRight,
   Search,
-  Folder,
   X,
   ChevronLeft,
   ChevronRight,
   Ellipsis,
+  ChevronDown,
+  BookOpen,
+  BookCheck,
+  Clock,
 } from "lucide-react";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import ajaxCall from "@/helpers/ajaxCall";
-
-const gradientColors = [
-  "from-pink-500 to-red-500",
-  "from-green-400 to-green-700",
-  "from-blue-500 to-indigo-600",
-  "from-yellow-400 to-orange-500",
-  "from-purple-500 to-purple-800",
-  "from-teal-500 to-cyan-600",
-];
 
 export default function Categories() {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [blogs, setBlogs] = useState([]);
+  const [filteredBlogs, setFilteredBlogs] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState({
+    name: "Digital Detox",
+    slug: "digital-detox",
+  });
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(6);
+  const [blogsPerPage] = useState(3);
+
+  const indexOfLastBlog = currentPage * blogsPerPage;
+  const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
+  const currentBlogs = filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog);
+  const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   useEffect(() => {
+    setLoading(true);
     const fetchCategories = async () => {
       try {
         const response = await ajaxCall(
           "/get-categories/?site=unplugwell.com",
           { method: "GET" }
         );
-        const results = response?.data?.results || [];
-        setCategories(
-          results.map((item, index) => ({
-            id: item.id,
-            name: item.name,
-            slug: item.slug,
-            description: item.description,
-            colorIndex: index % gradientColors.length,
-          }))
-        );
+        if (response?.data?.results?.length > 0) {
+          setCategories(response.data.results);
+          const digitalDetoxCategory = response.data.results.find(
+            (cat) => cat.slug === "digital-detox"
+          );
+          if (digitalDetoxCategory) {
+            setSelectedCategory(digitalDetoxCategory);
+          }
+        } else {
+          console.log("No categories found or invalid response");
+        }
       } catch (error) {
         console.error("Error fetching categories:", error);
-        setCategories([]);
       } finally {
         setLoading(false);
       }
@@ -57,23 +68,52 @@ export default function Categories() {
     fetchCategories();
   }, []);
 
-  const filteredCategories = categories.filter((category) =>
-    category.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  useEffect(() => {
+    const fetchCategoryBlogs = async () => {
+      try {
+        if (!selectedCategory.slug) return;
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredCategories.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
-  const totalPages = Math.ceil(filteredCategories.length / itemsPerPage);
+        setLoading(true);
+        const response = await ajaxCall(
+          `/posts-category/?site_domain=unplugwell.com&category_slug=${selectedCategory.slug}`,
+          { method: "GET" }
+        );
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+        setBlogs(response.data.results);
+        setFilteredBlogs(response.data.results);
+        setCurrentPage(1);
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategoryBlogs();
+  }, [selectedCategory.slug]);
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [searchQuery]);
+    if (searchQuery.trim() === "") {
+      setFilteredBlogs(blogs);
+    } else {
+      const filtered = blogs.filter(
+        (blog) =>
+          blog.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          blog.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (blog.tags &&
+            blog.tags.some((tag) =>
+              tag.name.toLowerCase().includes(searchQuery.toLowerCase())
+            ))
+      );
+      setFilteredBlogs(filtered);
+      setCurrentPage(1);
+    }
+  }, [searchQuery, blogs]);
+
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    if (isCategoryOpen) setIsCategoryOpen(false);
+  };
 
   const PaginationControls = () => {
     const maxVisiblePages = 5;
@@ -88,14 +128,11 @@ export default function Categories() {
     }
 
     return (
-      <nav
-        className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8"
-        aria-label="Categories pagination"
-      >
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8">
         <div className="text-sm text-gray-600">
-          Showing {indexOfFirstItem + 1}-
-          {Math.min(indexOfLastItem, filteredCategories.length)} of{" "}
-          {filteredCategories.length} categories
+          Showing {indexOfFirstBlog + 1}-
+          {Math.min(indexOfLastBlog, filteredBlogs.length)} of{" "}
+          {filteredBlogs.length} articles
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -104,7 +141,7 @@ export default function Categories() {
             className="p-2 rounded-full bg-white shadow-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 transition-colors"
             aria-label="Previous page"
           >
-            <ChevronLeft className="w-5 h-5 text-gray-600" />
+            <ChevronLeft className="w-5 h-5 text-gray-600" aria-hidden="true" />
           </button>
           {startPage > 1 && (
             <>
@@ -115,11 +152,12 @@ export default function Categories() {
                     ? "bg-purple-600 text-white"
                     : "bg-white text-gray-600 hover:bg-purple-50"
                 } shadow-md`}
+                aria-label={`Go to page 1`}
               >
                 1
               </button>
               {startPage > 2 && (
-                <span className="px-2 text-gray-500">
+                <span className="px-2 text-gray-500" aria-hidden="true">
                   <Ellipsis className="w-5 h-5" />
                 </span>
               )}
@@ -134,6 +172,7 @@ export default function Categories() {
                   ? "bg-purple-600 text-white"
                   : "bg-white text-gray-600 hover:bg-purple-50"
               } shadow-md`}
+              aria-label={`Go to page ${startPage + i}`}
             >
               {startPage + i}
             </button>
@@ -141,7 +180,7 @@ export default function Categories() {
           {endPage < totalPages && (
             <>
               {endPage < totalPages - 1 && (
-                <span className="px-2 text-gray-500">
+                <span className="px-2 text-gray-500" aria-hidden="true">
                   <Ellipsis className="w-5 h-5" />
                 </span>
               )}
@@ -152,6 +191,7 @@ export default function Categories() {
                     ? "bg-purple-600 text-white"
                     : "bg-white text-gray-600 hover:bg-purple-50"
                 } shadow-md`}
+                aria-label={`Go to page ${totalPages}`}
               >
                 {totalPages}
               </button>
@@ -163,10 +203,13 @@ export default function Categories() {
             className="p-2 rounded-full bg-white shadow-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 transition-colors"
             aria-label="Next page"
           >
-            <ChevronRight className="w-5 h-5 text-gray-600" />
+            <ChevronRight
+              className="w-5 h-5 text-gray-600"
+              aria-hidden="true"
+            />
           </button>
         </div>
-      </nav>
+      </div>
     );
   };
 
@@ -192,11 +235,11 @@ export default function Categories() {
               >
                 <input
                   type="text"
-                  placeholder="Search categories..."
+                  placeholder={`Search ${selectedCategory.name} blogs...`}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-12 pr-4 py-4 md:py-5 rounded-full bg-white text-gray-800 placeholder-gray-500 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
-                  aria-label="Search categories"
+                  aria-label={`Search ${selectedCategory.name} blogs...`}
                 />
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                 {searchQuery && (
@@ -213,10 +256,103 @@ export default function Categories() {
           </div>
         </div>
       </section>
+      <section
+        aria-label="Blog categories"
+        className="sticky top-16 z-10 bg-white shadow-md"
+      >
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="md:hidden w-full">
+              <button
+                onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+                className="w-full flex justify-between items-center px-4 py-2 bg-gray-100 rounded-lg"
+                aria-expanded={isCategoryOpen}
+                aria-controls="mobile-categories"
+              >
+                <span>Categories</span>
+                <ChevronDown
+                  className={`h-5 w-5 transition-transform ${
+                    isCategoryOpen ? "rotate-180" : ""
+                  }`}
+                  aria-hidden="true"
+                />
+              </button>
+              {isCategoryOpen && (
+                <motion.div
+                  id="mobile-categories"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="mt-2 space-y-2"
+                >
+                  {categories.map((category, index) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        setSelectedCategory(category);
+                        setIsCategoryOpen(false);
+                      }}
+                      className={`w-full px-4 py-2 text-left rounded-full text-sm font-semibold transition-all duration-300 ${
+                        selectedCategory.slug === category.slug
+                          ? "bg-purple-600 text-white shadow-lg shadow-purple-500/25 scale-105"
+                          : "bg-purple-100 text-purple-600 hover:bg-purple-200"
+                      }`}
+                      aria-label={`View articles in ${category.name} category`}
+                      aria-current={
+                        selectedCategory.slug === category.slug
+                          ? "true"
+                          : "false"
+                      }
+                    >
+                      {category.name}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </div>
+            <div className="hidden md:flex flex-wrap justify-center gap-4">
+              {categories.map((category, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleCategorySelect(category)}
+                  className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+                    selectedCategory.slug === category.slug
+                      ? "bg-purple-600 text-white shadow-lg shadow-purple-500/25 scale-105"
+                      : "bg-purple-100 text-purple-600 hover:bg-purple-200"
+                  }`}
+                  aria-label={`View articles in ${category.name} category`}
+                  aria-current={
+                    selectedCategory.slug === category.slug ? "true" : "false"
+                  }
+                >
+                  {category.name}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
       <section className="container mx-auto px-6 py-12">
+        <div className="flex items-center justify-between mb-6">
+          <h2
+            id="blog-list-heading"
+            className="text-2xl font-bold text-gray-900 flex items-center gap-2"
+          >
+            <BookOpen className="h-5 w-5 text-purple-600" aria-hidden="true" />
+            {searchQuery
+              ? `Search Results for "${searchQuery}"`
+              : `${selectedCategory.name} Articles`}
+          </h2>
+
+          <div className="text-sm text-gray-600">
+            {filteredBlogs.length}{" "}
+            {filteredBlogs.length === 1 ? "article" : "articles"}
+          </div>
+        </div>
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[...Array(6)].map((_, index) => (
+            {[...Array(3)].map((_, index) => (
               <div
                 key={index}
                 className="overflow-hidden bg-white rounded-2xl shadow-lg"
@@ -239,48 +375,112 @@ export default function Categories() {
               </div>
             ))}
           </div>
-        ) : currentItems.length > 0 ? (
+        ) : filteredBlogs.length > 0 ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {currentItems.map((category) => (
+              {currentBlogs.map((blog, index) => (
                 <Link
-                  key={category.id || category.slug}
-                  href={`/categories/${category.slug}`}
-                  passHref
-                  legacyBehavior
+                  key={blog.id}
+                  href={`/${blog.slug}`}
+                  aria-label={`Read article: ${blog.title}`}
+                  className="block"
                 >
-                  <a className="relative group overflow-hidden bg-white rounded-2xl shadow-lg transition-all duration-500 hover:shadow-xl block">
-                    <div
-                      className={`absolute inset-0 bg-gradient-to-r ${
-                        gradientColors[category.colorIndex]
-                      } opacity-90`}
-                    />
-                    <div className="relative p-8 h-full min-h-[320px] flex flex-col">
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="bg-white/20 p-3 rounded-xl">
-                          <Folder
-                            className="h-6 w-6 text-white"
-                            aria-hidden="true"
-                          />
-                        </div>
+                  <motion.article
+                    itemScope
+                    itemType="https://schema.org/BlogPosting"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05, duration: 0.5 }}
+                    whileHover={{ y: -5 }}
+                    className="h-full flex flex-col bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all group"
+                    role="listitem"
+                  >
+                    <div className="relative h-48">
+                      <img
+                        src={blog.featured_image}
+                        alt={blog.image_alt || blog.title}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        itemProp="image"
+                        loading={index < 3 ? "eager" : "lazy"}
+                      />
+                      <div className="absolute top-4 left-4">
+                        <span
+                          className="px-3 py-1 rounded-full bg-white/90 text-purple-600 text-sm font-medium"
+                          itemProp="articleSection"
+                        >
+                          {blog.category.name}
+                        </span>
                       </div>
-                      <h2 className="text-2xl font-bold text-white mb-2">
-                        {category.name}
+                    </div>
+
+                    <div className="p-6 flex flex-col flex-1">
+                      <h2
+                        itemProp="headline"
+                        className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors"
+                      >
+                        {blog.title}
                       </h2>
-                      <p className="text-white/90 mb-6">
-                        {category.description}
+
+                      <p
+                        itemProp="description"
+                        className="text-gray-600 mb-4 line-clamp-2"
+                      >
+                        {blog.excerpt}
                       </p>
+
                       <div className="mt-auto">
-                        <div className="inline-flex items-center gap-2 text-white font-medium group/link">
-                          Explore Category
-                          <ArrowRight
-                            className="h-4 w-4 transform group-hover/link:translate-x-1 transition-transform"
-                            aria-hidden="true"
-                          />
+                        <div
+                          className="flex items-center gap-3 mb-3"
+                          itemProp="author"
+                          itemScope
+                          itemType="https://schema.org/Person"
+                        >
+                          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-purple-100 flex items-center justify-center bg-purple-100 text-purple-600 font-semibold">
+                            {blog.author.full_name.includes(" ")
+                              ? `${blog.author.full_name.split(" ")[0][0]}${
+                                  blog.author.full_name.split(" ")[1][0]
+                                }`
+                              : blog.author.full_name.substring(0, 2)}
+                          </div>
+                          <div>
+                            <p
+                              itemProp="name"
+                              className="text-xs sm:text-sm font-medium text-gray-900"
+                            >
+                              {blog.author && blog.author.full_name}
+                            </p>
+                            <time
+                              itemProp="datePublished"
+                              dateTime={moment(blog.published_at).format()}
+                              className="text-xs sm:text-sm text-gray-500"
+                            >
+                              {moment(blog.published_at).format("ll")}
+                            </time>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-wrap gap-3 items-center justify-between text-xs sm:text-sm text-gray-500">
+                          <span className="flex items-center gap-1">
+                            <BookCheck
+                              className="h-3 w-3 sm:h-4 sm:w-4 text-pink-500"
+                              aria-hidden="true"
+                            />
+                            {blog.estimated_reading_time} min read
+                          </span>
+
+                          <span className="flex items-center gap-1">
+                            <Clock
+                              className="h-3 w-3 sm:h-4 sm:w-4"
+                              aria-hidden="true"
+                            />
+                            {moment(blog.published_at)
+                              .startOf("hour")
+                              .fromNow()}
+                          </span>
                         </div>
                       </div>
                     </div>
-                  </a>
+                  </motion.article>
                 </Link>
               ))}
             </div>
@@ -289,7 +489,7 @@ export default function Categories() {
         ) : (
           <div className="flex justify-center items-center py-10">
             <div className="text-center text-gray-600 text-lg">
-              No categories found matching your search criteria.
+              No articles found matching your search criteria.
             </div>
           </div>
         )}
