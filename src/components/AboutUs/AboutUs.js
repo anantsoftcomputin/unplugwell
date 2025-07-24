@@ -15,7 +15,7 @@ import Link from "next/link";
 
 const stats = [
   {
-    id: "stat-community",
+    id: "stat-community-1",
     number: "10K+",
     label: "Community Members",
     icon: <Users className="h-6 w-6 text-purple-600" aria-hidden="true" />,
