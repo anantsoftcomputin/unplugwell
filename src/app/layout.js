@@ -67,7 +67,7 @@ export default function RootLayout({ children }) {
         />
         <meta
           name="google-site-verification"
-          content="-vEQwCv3N-7CYJlks9qASX9zmgZ-7sbhBPfH4JKkxT4"
+          content="EpKEzAgpTQFgqYDw5gvWdxYzsHQtdqol1gV34OGSeNE"
         />
         <meta name="google-adsense-account" content="ca-pub-2283636579212292" />
       </head>
